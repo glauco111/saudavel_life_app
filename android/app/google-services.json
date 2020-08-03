@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "199478465702",
+    "firebase_url": "https://saudavel-life-v2.firebaseio.com",
+    "project_id": "saudavel-life-v2",
+    "storage_bucket": "saudavel-life-v2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:199478465702:android:40041874bd330e6d471067",
+        "android_client_info": {
+          "package_name": "com.example.saudavel_life_v2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "199478465702-8a6m45fr1spn46utmf7ktrhgjohvr451.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7vCvCK517i1aBq3wY6eBUxLE3aScnkng"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "199478465702-8a6m45fr1spn46utmf7ktrhgjohvr451.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
