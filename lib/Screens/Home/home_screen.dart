@@ -4,6 +4,7 @@ import 'package:saudavel_life_v2/common/custom_drawer/custom_drawer.dart';
 import 'package:saudavel_life_v2/models/home_manager.dart';
 import 'package:saudavel_life_v2/models/user_manager.dart';
 
+import 'Components/add_section_widget.dart';
 import 'Components/section_list.dart';
 import 'Components/section_staggered.dart';
 
@@ -59,7 +60,7 @@ class HomeScreen extends StatelessWidget {
                             },
                             itemBuilder: (_) {
                               return ['Salvar', 'Descartar'].map((e) {
-                                PopupMenuItem(
+                                return PopupMenuItem(
                                   value: e,
                                   child: Text(e),
                                 );
@@ -68,8 +69,9 @@ class HomeScreen extends StatelessWidget {
                           );
                         } else {
                           return IconButton(
-                              icon: Icon(Icons.edit),
-                              onPressed: homeManager.enterEditing);
+                            icon: Icon(Icons.edit),
+                            onPressed: homeManager.enterEditing,
+                          );
                         }
                       } else {
                         return Container();
@@ -91,6 +93,9 @@ class HomeScreen extends StatelessWidget {
                         return Container();
                     }
                   }).toList();
+
+                  if (homeManager.editing)
+                    children.add(AddSectionWidget(homeManager));
 
                   return SliverList(
                     delegate: SliverChildListDelegate(children),

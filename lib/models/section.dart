@@ -2,7 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:saudavel_life_v2/models/section_item.dart';
 
 class Section {
-  Section({this.name, this.items, this.type});
+  Section({this.name, this.items, this.type}) {
+    items = items ?? [];
+  }
+
   Section.fromDocument(DocumentSnapshot document) {
     name = document.data['name'] as String;
     type = document.data['type'] as String;
