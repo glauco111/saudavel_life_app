@@ -6,34 +6,47 @@ import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class SectionHeader extends StatelessWidget {
-  SectionHeader(this.section);
-  Section section;
-
   @override
   Widget build(BuildContext context) {
     final homeManager = context.watch<HomeManager>();
+    final section = context.watch<Section>();
     if (homeManager.editing) {
-      return Row(
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Expanded(
-            child: TextFormField(
-              initialValue: section.name,
-              decoration: InputDecoration(
-                  hintText: "Título", isDense: true, border: InputBorder.none),
-              style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w800),
-              onChanged: (text) => section.name = text,
-            ),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: TextFormField(
+                  initialValue: section.name,
+                  decoration: InputDecoration(
+                      hintText: "Título",
+                      isDense: true,
+                      border: InputBorder.none),
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w800),
+                  onChanged: (text) => section.name = text,
+                ),
+              ),
+              CustomIconButtom(
+                iconData: Icons.delete,
+                color: Colors.white,
+                onTap: () {
+                  homeManager.removeSection(section);
+                },
+              ),
+            ],
           ),
-          CustomIconButtom(
-            iconData: Icons.delete,
-            color: Colors.white,
-            onTap: () {
-              homeManager.removeSection(section);
-            },
-          ),
+          if (section.error != null)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Text(
+                section.error,
+                style: TextStyle(color: Colors.red),
+              ),
+            )
         ],
       );
     } else {

@@ -15,33 +15,41 @@ class SectionStaggered extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final homeManager = context.watch<HomeManager>();
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          SectionHeader(section),
-          StaggeredGridView.countBuilder(
-            shrinkWrap: true,
-            padding: EdgeInsets.zero,
-            crossAxisCount: 4,
-            itemCount: homeManager.editing
-                ? section.items.length + 1
-                : section.items.length,
-            itemBuilder: (_, index) {
-              if (index < section.items.length)
-                // ignore: curly_braces_in_flow_control_structures
-                return ItemTile(section.items[index]);
-              else {
-                return AddTileWidget();
-              }
-            },
-            staggeredTileBuilder: (index) =>
-                StaggeredTile.count(2, index.isEven ? 2 : 1),
-            mainAxisSpacing: 4,
-            crossAxisSpacing: 4,
-          ),
-        ],
+    return ChangeNotifierProvider.value(
+      value: section,
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            SectionHeader(),
+            Consumer<Section>(
+              builder: (_, section, __) {
+                return StaggeredGridView.countBuilder(
+                  shrinkWrap: true,
+                  padding: EdgeInsets.zero,
+                  crossAxisCount: 4,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: homeManager.editing
+                      ? section.items.length + 1
+                      : section.items.length,
+                  itemBuilder: (_, index) {
+                    if (index < section.items.length)
+                      // ignore: curly_braces_in_flow_control_structures
+                      return ItemTile(section.items[index]);
+                    else {
+                      return AddTileWidget();
+                    }
+                  },
+                  staggeredTileBuilder: (index) =>
+                      StaggeredTile.count(2, index.isEven ? 2 : 1),
+                  mainAxisSpacing: 4,
+                  crossAxisSpacing: 4,
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

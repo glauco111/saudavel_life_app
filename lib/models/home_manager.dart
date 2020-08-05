@@ -7,8 +7,7 @@ class HomeManager extends ChangeNotifier {
     _loadSections();
   }
 
-  // ignore: prefer_final_fields
-  List<Section> _sections = [];
+  final List<Section> _sections = [];
   List<Section> _editingSections = [];
 
   bool editing = false;
@@ -39,9 +38,20 @@ class HomeManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  void saveEditing() {
-    editing = false;
-    notifyListeners();
+  Future<void> saveEditing() async {
+    //TODO: Validation
+    bool valid = true;
+    for (final section in _editingSections) {
+      if (!section.valid()) valid = false;
+    }
+    if (!valid) return;
+
+    for (final section in _editingSections) {
+      await section.save();
+    }
+
+    // editing = false;
+    // notifyListeners();
   }
 
   void discardEditing() {

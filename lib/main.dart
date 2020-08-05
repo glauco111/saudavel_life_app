@@ -12,6 +12,7 @@ import 'package:saudavel_life_v2/models/user_manager.dart';
 import 'Screens/Cart/cart_screen.dart';
 import 'Screens/Login/login_screen.dart';
 import 'Screens/Product/product_screen.dart';
+import 'Screens/select_product/select_product_screen.dart';
 import 'models/product.dart';
 
 void main() {
@@ -77,6 +78,8 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(builder: (_) => CartScreen());
             case '/signUp':
               return MaterialPageRoute(builder: (_) => SignUpScreen());
+            case '/select_product':
+              return MaterialPageRoute(builder: (_) => SelectProductScreen());
             case '/base':
             default:
               return MaterialPageRoute(builder: (_) => BaseScreen());

@@ -1,12 +1,20 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:saudavel_life_v2/Screens/Edit_Product/Components/image_source_sheet.dart';
+import 'package:saudavel_life_v2/models/section.dart';
+import 'package:saudavel_life_v2/models/section_item.dart';
 
 class AddTileWidget extends StatelessWidget {
-  void onImageSelected(File file) {}
   @override
   Widget build(BuildContext context) {
+    final section = context.watch<Section>();
+    void onImageSelected(File file) {
+      section.addItem(SectionItem(image: file));
+      Navigator.of(context).pop();
+    }
+
     return AspectRatio(
       aspectRatio: 1,
       child: GestureDetector(
