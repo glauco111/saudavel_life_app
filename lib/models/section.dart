@@ -1,10 +1,14 @@
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:saudavel_life_v2/models/section_item.dart';
+import 'package:uuid/uuid.dart';
 
 class Section extends ChangeNotifier {
   Section({this.id, this.name, this.items, this.type}) {
     items = items ?? [];
+    originalItems = List.from(items);
   }
 
   Section.fromDocument(DocumentSnapshot document) {
@@ -17,12 +21,15 @@ class Section extends ChangeNotifier {
   }
 
   final Firestore firestore = Firestore.instance;
+  final FirebaseStorage storage = FirebaseStorage.instance;
   DocumentReference get firestoreRef => firestore.document('/home/$id');
+  StorageReference get storageRef => storage.ref().child('home/$id');
 
   String id;
   String name;
   String type;
   List<SectionItem> items;
+  List<SectionItem> originalItems;
 
   String _error;
   String get error => _error;
@@ -41,16 +48,50 @@ class Section extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> save() async {
-    final Map<String, dynamic> data = {
-      'name': name,
-      'type': type,
-    };
+  Future<void> save(int pos) async {
+    final Map<String, dynamic> data = {'name': name, 'type': type, 'pos': pos};
     if (id == null) {
       final doc = await firestore.collection('home').add(data);
       id = doc.documentID;
     } else {
       await firestoreRef.updateData(data);
+    }
+
+    for (final item in items) {
+      if (item.image is File) {
+        final StorageUploadTask task =
+            storageRef.child(Uuid().v1()).putFile(item.image as File);
+        final StorageTaskSnapshot snapshot = await task.onComplete;
+        final String url = await snapshot.ref.getDownloadURL() as String;
+        item.image = url;
+      }
+    }
+
+    for (final original in originalItems) {
+      if (items.contains(original)) {
+        try {
+          final ref =
+              await storage.getReferenceFromUrl(original.image as String);
+          await ref.delete();
+          // ignore: empty_catches
+        } catch (e) {}
+      }
+    }
+    final Map<String, dynamic> itemsData = {
+      'items': items.map((e) => e.toMap()).toList(),
+    };
+
+    await firestoreRef.updateData(itemsData);
+  }
+
+  Future<void> delete() async {
+    await firestoreRef.delete();
+    for (final item in items) {
+      try {
+        final ref = await storage.getReferenceFromUrl(item.image as String);
+        await ref.delete();
+        // ignore: empty_catches
+      } catch (e) {}
     }
   }
 
