@@ -37,19 +37,11 @@ class ItemTile2 extends StatelessWidget {
             // The shadow you want
           ),
           child: CircleAvatar(
-            backgroundImage: NetworkImage(item.image),
+            backgroundImage: NetworkImage(item.image as String),
             foregroundColor: Colors.red,
           ),
         ),
       ),
-      // child: AspectRatio(
-      //   aspectRatio: 1,
-      //   child: FadeInImage.memoryNetwork(
-      //     placeholder: kTransparentImage,
-      //     image: item.image,
-      //     fit: BoxFit.cover,
-      //   ),
-      // ),
     );
   }
 }

@@ -7,6 +7,7 @@ class HomeManager extends ChangeNotifier {
     _loadSections();
   }
 
+  // ignore: prefer_final_fields
   List<Section> _sections = [];
   List<Section> _editingSections = [];
 
@@ -50,6 +51,11 @@ class HomeManager extends ChangeNotifier {
 
   void addSection(Section section) {
     _editingSections.add(section);
+    notifyListeners();
+  }
+
+  void removeSection(Section section) {
+    _editingSections.remove(section);
     notifyListeners();
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
 import 'package:saudavel_life_v2/models/product_manager.dart';
 import 'package:saudavel_life_v2/models/section_item.dart';
 import 'package:provider/provider.dart';
@@ -22,11 +23,16 @@ class ItemTile extends StatelessWidget {
       },
       child: AspectRatio(
         aspectRatio: 1,
-        child: FadeInImage.memoryNetwork(
-          placeholder: kTransparentImage,
-          image: item.image,
-          fit: BoxFit.cover,
-        ),
+        child: item.image is String
+            ? FadeInImage.memoryNetwork(
+                placeholder: kTransparentImage,
+                image: item.image as String,
+                fit: BoxFit.cover,
+              )
+            : Image.file(
+                item.image as File,
+                fit: BoxFit.cover,
+              ),
       ),
     );
   }

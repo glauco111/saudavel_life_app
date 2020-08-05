@@ -94,8 +94,9 @@ class HomeScreen extends StatelessWidget {
                     }
                   }).toList();
 
-                  if (homeManager.editing)
+                  if (homeManager.editing) {
                     children.add(AddSectionWidget(homeManager));
+                  }
 
                   return SliverList(
                     delegate: SliverChildListDelegate(children),
