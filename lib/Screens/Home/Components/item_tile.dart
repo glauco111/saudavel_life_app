@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:saudavel_life_v2/models/home_manager.dart';
 import 'package:saudavel_life_v2/models/product.dart';
+// ignore: directives_ordering
 import 'dart:io';
 import 'package:saudavel_life_v2/models/product_manager.dart';
 import 'package:saudavel_life_v2/models/section.dart';
 import 'package:saudavel_life_v2/models/section_item.dart';
 import 'package:provider/provider.dart';
 import 'package:transparent_image/transparent_image.dart';
+// ignore: duplicate_import
 import 'package:provider/provider.dart';
 
 class ItemTile extends StatelessWidget {

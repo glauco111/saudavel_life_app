@@ -4,11 +4,16 @@ import 'package:saudavel_life_v2/models/cart_product.dart';
 import 'package:saudavel_life_v2/models/product.dart';
 import 'package:saudavel_life_v2/models/user.dart';
 import 'package:saudavel_life_v2/models/user_manager.dart';
+import 'package:provider/provider.dart';
+import 'package:saudavel_life_v2/services/cep_aberto_service.dart';
+
+import 'address.dart';
 
 class CartManager extends ChangeNotifier {
   List<CartProduct> items = [];
 
   User user;
+  Address address;
 
   num productsPrice = 0.0;
 
@@ -82,5 +87,26 @@ class CartManager extends ChangeNotifier {
       if (!cartProduct.hasStock) return false;
     }
     return true;
+  }
+
+  //address
+  Future<void> getAddress(String cep) async {
+    final cepAbertoService = CepAbertoService();
+    try {
+      final cepAbertoAddress = await cepAbertoService.getAddressFromCep(cep);
+
+      if (cepAbertoAddress != null) {
+        final Address address = Address(
+            street: cepAbertoAddress.logradouro,
+            district: cepAbertoAddress.bairro,
+            zipCode: cepAbertoAddress.cep,
+            city: cepAbertoAddress.cidade.nome,
+            state: cepAbertoAddress.estado.sigla,
+            lat: cepAbertoAddress.latitude,
+            long: cepAbertoAddress.longitude);
+      }
+      notifyListeners();
+      // ignore: empty_catches
+    } catch (e) {}
   }
 }
