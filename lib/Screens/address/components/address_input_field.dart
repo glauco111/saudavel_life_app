@@ -17,7 +17,7 @@ class AddressInputField extends StatelessWidget {
     String emptyValidator(String text) =>
         text.isEmpty ? 'Campo obrigatório' : null;
 
-    if (address.zipCode != null) {
+    if (address.zipCode != null && cartManager.deliveryPrice == null) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -136,18 +136,36 @@ class AddressInputField extends StatelessWidget {
             color: Theme.of(context).primaryColor,
             disabledColor: Theme.of(context).primaryColor.withAlpha(100),
             textColor: Colors.white,
-            onPressed: () {},
+            onPressed: () async {
+              if (Form.of(context).validate()) {
+                Form.of(context).save();
+                try {
+                  await context.read<CartManager>().setAddress(address);
+                } catch (e) {
+                  Scaffold.of(context).showSnackBar(
+                    SnackBar(
+                      backgroundColor: Colors.red,
+                      content: Text('$e'),
+                    ),
+                  );
+                }
+              }
+            },
             child: const Text('Calcular Frete'),
           ),
         ],
       );
       // ignore: invariant_booleans
-    } else {
-      return Container(
-        width: 10,
-        height: 10,
-        color: Colors.transparent,
+    } else if (address.zipCode != null) {
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 16),
+        child: Text(
+          '${address.street}, ${address.number}, ${address.district}\n'
+          '${address.city} - ${address.state}',
+        ),
       );
+    } else {
+      return Container();
     }
   }
 }

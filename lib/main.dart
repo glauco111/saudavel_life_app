@@ -14,6 +14,7 @@ import 'Screens/address/address_screen.dart';
 // ignore: directives_ordering
 import 'Screens/Login/login_screen.dart';
 import 'Screens/Product/product_screen.dart';
+import 'Screens/checkout/checkout_screen.dart';
 import 'Screens/select_product/select_product_screen.dart';
 import 'models/product.dart';
 
@@ -80,6 +81,8 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(builder: (_) => CartScreen());
             case '/address':
               return MaterialPageRoute(builder: (_) => AddressScreen());
+            case '/checkout':
+              return MaterialPageRoute(builder: (_) => CheckoutScreen());
             case '/signUp':
               return MaterialPageRoute(builder: (_) => SignUpScreen());
             case '/select_product':
