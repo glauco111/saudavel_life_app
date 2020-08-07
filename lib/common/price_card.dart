@@ -66,7 +66,7 @@ class PriceCard extends StatelessWidget {
               textColor: Colors.white,
               disabledColor: Theme.of(context).primaryColor.withAlpha(100),
               onPressed: onPressed,
-              child: const Text('Continuar para endereço'),
+              child: const Text('Finalizar Pedido'),
             )
           ],
         ),
