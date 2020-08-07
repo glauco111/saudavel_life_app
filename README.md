@@ -1,6 +1,6 @@
-# saudavel_life_v2
+# Saudável Life
 
-A new Flutter project.
+Projeto de Flutter inspirado no curso do professor Daniel Ciolfi.
 
 ## Getting Started
 
