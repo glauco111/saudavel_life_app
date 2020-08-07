@@ -4,7 +4,6 @@ import 'package:saudavel_life_v2/models/cart_product.dart';
 import 'package:saudavel_life_v2/models/product.dart';
 import 'package:saudavel_life_v2/models/user.dart';
 import 'package:saudavel_life_v2/models/user_manager.dart';
-import 'package:provider/provider.dart';
 import 'package:saudavel_life_v2/services/cep_aberto_service.dart';
 
 import 'address.dart';
@@ -16,6 +15,13 @@ class CartManager extends ChangeNotifier {
   Address address;
 
   num productsPrice = 0.0;
+
+  bool _loading = false;
+  bool get loading => _loading;
+  set loading(bool value) {
+    _loading = value;
+    notifyListeners();
+  }
 
   void updateUser(UserManager userManager) {
     user = userManager.user;
@@ -96,7 +102,7 @@ class CartManager extends ChangeNotifier {
       final cepAbertoAddress = await cepAbertoService.getAddressFromCep(cep);
 
       if (cepAbertoAddress != null) {
-        final Address address = Address(
+        address = Address(
             street: cepAbertoAddress.logradouro,
             district: cepAbertoAddress.bairro,
             zipCode: cepAbertoAddress.cep,
@@ -108,5 +114,10 @@ class CartManager extends ChangeNotifier {
       notifyListeners();
       // ignore: empty_catches
     } catch (e) {}
+  }
+
+  void removeAddress() {
+    address = null;
+    notifyListeners();
   }
 }

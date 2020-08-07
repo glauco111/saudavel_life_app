@@ -1,11 +1,14 @@
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:saudavel_life_v2/models/address.dart';
 import 'package:saudavel_life_v2/models/cart_manager.dart';
 import 'package:provider/provider.dart';
 
 class CepInputField extends StatelessWidget {
   final TextEditingController cepController = TextEditingController();
+
+  CepInputField(Address address);
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -22,9 +25,9 @@ class CepInputField extends StatelessWidget {
               isDense: true, labelText: "Cep", hintText: "12345-000"),
           validator: (cep) {
             if (cep.isEmpty) {
-              return 'Campo Obrigatório';
+              return 'Campo obrigatório';
             } else if (cep.length != 10) {
-              return 'Cep Invállido';
+              return 'CEP Inválido';
             }
             return null;
           },

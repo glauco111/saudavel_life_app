@@ -16,6 +16,7 @@ class AddressCard extends StatelessWidget {
           child: Consumer<CartManager>(
             builder: (_, cartManager, __) {
               final address = cartManager.address ?? Address();
+
               return Form(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -25,7 +26,7 @@ class AddressCard extends StatelessWidget {
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
-                    CepInputField(),
+                    CepInputField(address),
                     AddressInputField(address),
                   ],
                 ),
