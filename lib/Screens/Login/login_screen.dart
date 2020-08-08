@@ -21,7 +21,7 @@ class LoginScreen extends StatelessWidget {
         actions: <Widget>[
           FlatButton(
             onPressed: () {
-              Navigator.of(context).pushReplacementNamed('/signup');
+              Navigator.of(context).pushReplacementNamed('/signUp');
             },
             textColor: Colors.white,
             child: const Text(

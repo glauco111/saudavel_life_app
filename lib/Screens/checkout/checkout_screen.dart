@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:saudavel_life_v2/common/price_card.dart';
 import 'package:saudavel_life_v2/models/cart_manager.dart';
 import 'package:saudavel_life_v2/models/checkout_manager.dart';
+import 'package:saudavel_life_v2/models/page_manager.dart';
 
 class CheckoutScreen extends StatelessWidget {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();

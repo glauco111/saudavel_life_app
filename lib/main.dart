@@ -3,9 +3,11 @@ import 'package:provider/provider.dart';
 import 'package:saudavel_life_v2/Screens/Base/base_screen.dart';
 import 'package:saudavel_life_v2/Screens/Edit_Product/edit_product_screen.dart';
 import 'package:saudavel_life_v2/Screens/SignUp/signup_screen.dart';
+import 'package:saudavel_life_v2/Screens/orders/order_screen.dart';
 import 'package:saudavel_life_v2/models/admin_users_manager.dart';
 import 'package:saudavel_life_v2/models/cart_manager.dart';
 import 'package:saudavel_life_v2/models/home_manager.dart';
+import 'package:saudavel_life_v2/models/orders_manager.dart';
 import 'package:saudavel_life_v2/models/product_manager.dart';
 import 'package:saudavel_life_v2/models/user_manager.dart';
 
@@ -44,6 +46,12 @@ class MyApp extends StatelessWidget {
           create: (_) => CartManager(),
           update: (_, userManager, cartManager) =>
               cartManager..updateUser(userManager),
+          lazy: false,
+        ),
+        ChangeNotifierProxyProvider<UserManager, OrdersManager>(
+          create: (_) => OrdersManager(),
+          update: (_, userManager, ordersManager) =>
+              ordersManager..updateUser(userManager.user),
           lazy: false,
         ),
         ChangeNotifierProxyProvider<UserManager, AdminUsersManager>(
@@ -86,6 +94,8 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(builder: (_) => CheckoutScreen());
             case '/signUp':
               return MaterialPageRoute(builder: (_) => SignUpScreen());
+            case '/orderScreen':
+              return MaterialPageRoute(builder: (_) => OrderScreen());
             case '/select_product':
               return MaterialPageRoute(builder: (_) => SelectProductScreen());
             case '/base':

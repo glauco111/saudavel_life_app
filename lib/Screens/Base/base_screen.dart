@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:saudavel_life_v2/Screens/Home/home_screen.dart';
 import 'package:saudavel_life_v2/Screens/Products/products_screen.dart';
 import 'package:saudavel_life_v2/Screens/admin_users/admin_users_screen.dart';
+import 'package:saudavel_life_v2/Screens/orders/order_screen.dart';
 import 'package:saudavel_life_v2/common/custom_drawer/custom_drawer.dart';
 import 'package:saudavel_life_v2/models/page_manager.dart';
 import 'package:saudavel_life_v2/models/user_manager.dart';
@@ -27,12 +28,7 @@ class _BaseScreenState extends State<BaseScreen> {
             children: <Widget>[
               HomeScreen(),
               ProductsScreen(),
-              Scaffold(
-                drawer: CustomDrawer(),
-                appBar: AppBar(
-                  title: const Text("Home3"),
-                ),
-              ),
+              OrderScreen(),
               Scaffold(
                 drawer: CustomDrawer(),
                 appBar: AppBar(

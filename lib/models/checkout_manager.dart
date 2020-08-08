@@ -18,6 +18,7 @@ class CheckoutManager extends ChangeNotifier {
   // ignore: use_setters_to_change_properties
   void updateCart(CartManager cartManager) {
     this.cartManager = cartManager;
+    // ignore: avoid_print
     print(cartManager.totalPrice);
   }
 
