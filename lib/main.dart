@@ -7,6 +7,7 @@ import 'package:saudavel_life_v2/Screens/orders/order_screen.dart';
 import 'package:saudavel_life_v2/models/admin_users_manager.dart';
 import 'package:saudavel_life_v2/models/cart_manager.dart';
 import 'package:saudavel_life_v2/models/home_manager.dart';
+import 'package:saudavel_life_v2/models/order.dart';
 import 'package:saudavel_life_v2/models/orders_manager.dart';
 import 'package:saudavel_life_v2/models/product_manager.dart';
 import 'package:saudavel_life_v2/models/user_manager.dart';
@@ -17,6 +18,7 @@ import 'Screens/address/address_screen.dart';
 import 'Screens/Login/login_screen.dart';
 import 'Screens/Product/product_screen.dart';
 import 'Screens/checkout/checkout_screen.dart';
+import 'Screens/confirmation/confirmation_screen.dart';
 import 'Screens/select_product/select_product_screen.dart';
 import 'models/product.dart';
 
@@ -96,6 +98,10 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(builder: (_) => SignUpScreen());
             case '/orderScreen':
               return MaterialPageRoute(builder: (_) => OrderScreen());
+            case '/confirmation':
+              return MaterialPageRoute(
+                  builder: (_) =>
+                      ConfirmationScreen(settings.arguments as Order));
             case '/select_product':
               return MaterialPageRoute(builder: (_) => SelectProductScreen());
             case '/base':
