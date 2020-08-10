@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:saudavel_life_v2/common/empty_card.dart';
-import 'package:saudavel_life_v2/common/login_card.dart';
-import 'package:saudavel_life_v2/common/price_card.dart';
+import 'package:saudavel_life_v2/common/card/empty_card.dart';
+import 'package:saudavel_life_v2/common/card/login_card.dart';
+import 'package:saudavel_life_v2/common/card/price_card.dart';
 import 'package:saudavel_life_v2/models/cart_manager.dart';
 
 import 'components/cart_tile.dart';

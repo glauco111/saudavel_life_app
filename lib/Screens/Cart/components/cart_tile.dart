@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:saudavel_life_v2/common/custom_icon_buttom.dart';
+import 'package:saudavel_life_v2/common/widgets/custom_icon_buttom.dart';
 import 'package:saudavel_life_v2/models/cart_product.dart';
 
 class CartTile extends StatelessWidget {

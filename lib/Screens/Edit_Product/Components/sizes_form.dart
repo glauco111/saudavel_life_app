@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:saudavel_life_v2/Screens/Edit_Product/Components/edit_item_size.dart';
-import 'package:saudavel_life_v2/common/custom_icon_buttom.dart';
+import 'package:saudavel_life_v2/common/widgets/custom_icon_buttom.dart';
 import 'package:saudavel_life_v2/models/item_size.dart';
 import 'package:saudavel_life_v2/models/product.dart';
 

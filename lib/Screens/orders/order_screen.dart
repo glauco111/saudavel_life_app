@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:saudavel_life_v2/Screens/orders/components/order_tile.dart';
+import 'package:saudavel_life_v2/common/order/order_tile.dart';
 import 'package:saudavel_life_v2/common/custom_drawer/custom_drawer.dart';
-import 'package:saudavel_life_v2/common/empty_card.dart';
-import 'package:saudavel_life_v2/common/login_card.dart';
+import 'package:saudavel_life_v2/common/card/empty_card.dart';
+import 'package:saudavel_life_v2/common/card/login_card.dart';
 import 'package:saudavel_life_v2/models/orders_manager.dart';
 
 class OrderScreen extends StatelessWidget {

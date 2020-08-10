@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:saudavel_life_v2/Screens/Home/home_screen.dart';
 import 'package:saudavel_life_v2/Screens/Products/products_screen.dart';
+import 'package:saudavel_life_v2/Screens/admin_orders/admin_orders_screen.dart';
 import 'package:saudavel_life_v2/Screens/admin_users/admin_users_screen.dart';
 import 'package:saudavel_life_v2/Screens/orders/order_screen.dart';
 import 'package:saudavel_life_v2/common/custom_drawer/custom_drawer.dart';
@@ -15,6 +17,12 @@ class BaseScreen extends StatefulWidget {
 
 class _BaseScreenState extends State<BaseScreen> {
   final PageController pageController = PageController();
+
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,12 +45,7 @@ class _BaseScreenState extends State<BaseScreen> {
               ),
               if (userManager.adminEnabled) ...[
                 AdminUsersScreen(),
-                Scaffold(
-                  drawer: CustomDrawer(),
-                  appBar: AppBar(
-                    title: const Text("Pedidos"),
-                  ),
-                ),
+                AdminOrdersScreen(),
               ],
             ],
           );

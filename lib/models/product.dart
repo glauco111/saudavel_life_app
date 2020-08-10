@@ -8,7 +8,13 @@ import 'package:uuid/uuid.dart';
 import 'item_size.dart';
 
 class Product extends ChangeNotifier {
-  Product({this.id, this.description, this.images, this.name, this.sizes}) {
+  Product(
+      {this.id,
+      this.description,
+      this.images,
+      this.name,
+      this.sizes,
+      this.deleted = false}) {
     images = images ?? [];
     sizes = sizes ?? [];
   }
@@ -17,6 +23,7 @@ class Product extends ChangeNotifier {
     name = document['name'] as String;
     description = document['description'] as String;
     images = List<String>.from(document.data['images'] as List<dynamic>);
+    deleted = (document.data['deleted'] ?? false) as bool;
     sizes = (document.data['sizes'] as List<dynamic> ?? [])
         .map((s) => ItemSize.fromMap(s as Map<String, dynamic>))
         .toList();
@@ -28,6 +35,7 @@ class Product extends ChangeNotifier {
   List<String> images;
   List<ItemSize> sizes;
   List<dynamic> newImages;
+  bool deleted;
 
   bool _loading = false;
   bool get loading => _loading;
@@ -91,6 +99,7 @@ class Product extends ChangeNotifier {
       'name': name,
       'description': description,
       'sizes': exportSizeList(),
+      'deleted': deleted
     };
 
     if (id == null) {
@@ -114,7 +123,7 @@ class Product extends ChangeNotifier {
     }
 
     for (final image in images) {
-      if (!newImages.contains(image)) {
+      if (!newImages.contains(image) && image.contains('firebase')) {
         try {
           final ref = await storage.getReferenceFromUrl(image);
           await ref.delete();
@@ -129,13 +138,19 @@ class Product extends ChangeNotifier {
     loading = false;
   }
 
+  void delete() {
+    firestoreRef.updateData({'deleted': true});
+  }
+
   Product clone() {
     return Product(
-        id: id,
-        name: name,
-        description: description,
-        sizes: sizes.map((size) => size.clone()).toList(),
-        images: List.from(images));
+      id: id,
+      name: name,
+      description: description,
+      sizes: sizes.map((size) => size.clone()).toList(),
+      images: List.from(images),
+      deleted: deleted,
+    );
   }
 
   @override

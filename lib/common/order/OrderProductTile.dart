@@ -48,7 +48,7 @@ class OrderProductTile extends StatelessWidget {
             ),
             Text(
               '${cartProduct.quantity}',
-              style: TextStyle(fontSize: 20),
+              style: const TextStyle(fontSize: 20),
             )
           ],
         ),

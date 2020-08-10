@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:saudavel_life_v2/common/price_card.dart';
+import 'package:saudavel_life_v2/common/card/price_card.dart';
 import 'package:saudavel_life_v2/models/cart_manager.dart';
 import 'package:saudavel_life_v2/models/checkout_manager.dart';
-import 'package:saudavel_life_v2/models/page_manager.dart';
 
 class CheckoutScreen extends StatelessWidget {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -60,7 +59,7 @@ class CheckoutScreen extends StatelessWidget {
                           .popUntil((route) => route.settings.name == '/cart');
                     }, onSuccess: (order) {
                       Navigator.of(context)
-                          .popUntil((route) => route.settings.name == '/base');
+                          .popUntil((route) => route.settings.name == '/');
                       Navigator.of(context)
                           .pushNamed('/confirmation', arguments: order);
                     });

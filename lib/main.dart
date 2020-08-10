@@ -20,6 +20,7 @@ import 'Screens/Product/product_screen.dart';
 import 'Screens/checkout/checkout_screen.dart';
 import 'Screens/confirmation/confirmation_screen.dart';
 import 'Screens/select_product/select_product_screen.dart';
+import 'models/admin_orders_manager.dart';
 import 'models/product.dart';
 
 void main() {
@@ -56,6 +57,12 @@ class MyApp extends StatelessWidget {
               ordersManager..updateUser(userManager.user),
           lazy: false,
         ),
+        ChangeNotifierProxyProvider<UserManager, AdminOrdersManager>(
+          create: (_) => AdminOrdersManager(),
+          lazy: false,
+          update: (_, userManager, adminOrdersManager) => adminOrdersManager
+            ..updateAdmin(adminEnabled: userManager.adminEnabled),
+        ),
         ChangeNotifierProxyProvider<UserManager, AdminUsersManager>(
           create: (_) => AdminUsersManager(),
           lazy: false,
@@ -75,7 +82,6 @@ class MyApp extends StatelessWidget {
           ),
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        initialRoute: '/base',
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/product':
@@ -104,7 +110,7 @@ class MyApp extends StatelessWidget {
                       ConfirmationScreen(settings.arguments as Order));
             case '/select_product':
               return MaterialPageRoute(builder: (_) => SelectProductScreen());
-            case '/base':
+            case '/':
             default:
               return MaterialPageRoute(
                   builder: (_) => BaseScreen(), settings: settings);

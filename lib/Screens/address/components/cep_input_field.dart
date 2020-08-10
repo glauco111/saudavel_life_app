@@ -1,7 +1,7 @@
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:saudavel_life_v2/common/custom_icon_buttom.dart';
+import 'package:saudavel_life_v2/common/widgets/custom_icon_buttom.dart';
 import 'package:saudavel_life_v2/models/address.dart';
 import 'package:saudavel_life_v2/models/cart_manager.dart';
 import 'package:provider/provider.dart';

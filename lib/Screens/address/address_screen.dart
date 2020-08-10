@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:saudavel_life_v2/common/price_card.dart';
+import 'package:saudavel_life_v2/common/card/price_card.dart';
 import 'package:saudavel_life_v2/models/cart_manager.dart';
 
 import 'components/address_card.dart';
