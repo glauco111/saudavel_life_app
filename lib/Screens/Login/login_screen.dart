@@ -1,3 +1,5 @@
+import 'package:flutter_signin_button/button_view.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:saudavel_life_v2/Helpers/validators.dart';
@@ -38,6 +40,14 @@ class LoginScreen extends StatelessWidget {
             key: formKey,
             child: Consumer<UserManager>(
               builder: (_, userManager, child) {
+                if (userManager.loadingFace) {
+                  return const Padding(
+                    padding: EdgeInsets.all(20.0),
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation(Colors.blue),
+                    ),
+                  );
+                }
                 return ListView(
                   padding: const EdgeInsets.all(16),
                   shrinkWrap: true,
@@ -107,6 +117,20 @@ class LoginScreen extends StatelessWidget {
                               'Entrar',
                               style: TextStyle(fontSize: 15),
                             ),
+                    ),
+                    SignInButton(
+                      Buttons.Facebook,
+                      text: 'Entrar com Facebook',
+                      onPressed: () {
+                        userManager.facebookLogin(onFail: (e) {
+                          scaffoldKey.currentState.showSnackBar(SnackBar(
+                            content: Text('Falha ao entrar: $e'),
+                            backgroundColor: Colors.red,
+                          ));
+                        }, onSuccess: () {
+                          Navigator.of(context).pop();
+                        });
+                      },
                     ),
                   ],
                 );

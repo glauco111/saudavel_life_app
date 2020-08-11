@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:saudavel_life_v2/common/order/OrderProductTile.dart';
+import 'package:saudavel_life_v2/common/order/order_product_tile.dart';
 import 'package:saudavel_life_v2/models/order.dart';
 
 class ConfirmationScreen extends StatelessWidget {

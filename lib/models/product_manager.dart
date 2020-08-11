@@ -12,36 +12,35 @@ class ProductManager extends ChangeNotifier {
   List<Product> allProducts = [];
 
   String _search = '';
+
   String get search => _search;
   set search(String value) {
     _search = value;
     notifyListeners();
   }
 
-  List<Product> get filterProducts {
-    final List<Product> filterProducts = [];
+  List<Product> get filteredProducts {
+    final List<Product> filteredProducts = [];
+
     if (search.isEmpty) {
-      filterProducts.addAll(allProducts);
+      filteredProducts.addAll(allProducts);
     } else {
-      filterProducts.addAll(
-        allProducts.where(
-          (p) => p.name.toLowerCase().contains(
-                search.toLowerCase(),
-              ),
-        ),
-      );
+      filteredProducts.addAll(allProducts
+          .where((p) => p.name.toLowerCase().contains(search.toLowerCase())));
     }
-    return filterProducts;
+
+    return filteredProducts;
   }
 
   Future<void> _loadAllProducts() async {
     final QuerySnapshot snapProducts = await firestore
         .collection('products')
-        .where('deleted', isEqualTo: false || null)
+        .where('deleted', isEqualTo: false)
         .getDocuments();
 
     allProducts =
         snapProducts.documents.map((d) => Product.fromDocument(d)).toList();
+
     notifyListeners();
   }
 

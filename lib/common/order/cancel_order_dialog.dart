@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:saudavel_life_v2/models/order.dart';
 
 class CancelOrderDialog extends StatelessWidget {
-  CancelOrderDialog(this.order);
+  const CancelOrderDialog(this.order);
   final Order order;
   @override
   Widget build(BuildContext context) {
