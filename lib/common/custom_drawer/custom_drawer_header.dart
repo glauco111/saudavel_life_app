@@ -12,15 +12,12 @@ class CustomDrawerHeader extends StatelessWidget {
       child: Consumer<UserManager>(
         builder: (_, userManager, __) {
           return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
+              if (userManager.isLoggedIn) CircularAvatar() else SaudavelApp(),
               Text(
-                '        Loja \nSaudavel Life',
-                style: TextStyle(fontSize: 34, fontWeight: FontWeight.bold),
-              ),
-              Text(
-                'Olá, ${userManager.user?.name ?? ''}',
+                'Olá, ${userManager.usuario?.name ?? ''}',
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
                 style: TextStyle(
@@ -48,6 +45,37 @@ class CustomDrawerHeader extends StatelessWidget {
             ],
           );
         },
+      ),
+    );
+  }
+}
+
+class SaudavelApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      '        Loja \nSaudavel Life',
+      style: TextStyle(fontSize: 34, fontWeight: FontWeight.bold),
+    );
+  }
+}
+
+class CircularAvatar extends StatelessWidget {
+  final NetworkImage foto = const NetworkImage(
+      'https://scontent.fpoo2-1.fna.fbcdn.net/v/t1.0-9/58600086_2188791984541189_4677879156745175040_o.jpg?_nc_cat=102&_nc_sid=09cbfe&_nc_eui2=AeFxtISFL1NmANkWjF6L6-46fuXoLayFejd-5egtrIV6Nx2tFtkQ-elTFJvXtaytvbej20a7YwcIlEnQGA6kAcId&_nc_ohc=wlioH9MPEGAAX9xLTVa&_nc_ht=scontent.fpoo2-1.fna&oh=39418703a03fcafb1aeab34cbb61141f&oe=5F577AA1');
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.only(bottom: 2),
+      child: CircleAvatar(
+        radius: 53,
+        backgroundColor: Colors.white,
+        child: CircleAvatar(
+          foregroundColor: Colors.white,
+          radius: 50,
+          backgroundColor: Colors.green[800],
+          backgroundImage: foto,
+        ),
       ),
     );
   }

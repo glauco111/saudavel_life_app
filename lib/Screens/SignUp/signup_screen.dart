@@ -7,7 +7,7 @@ import 'package:saudavel_life_v2/models/user_manager.dart';
 class SignUpScreen extends StatelessWidget {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  final User user = User();
+  final Usuario user = Usuario();
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +115,7 @@ class SignUpScreen extends StatelessWidget {
                                     return null;
                                   }
                                   userManager.signUp(
-                                    user: user,
+                                    usuario: user,
                                     onSuccess: () {
                                       Navigator.of(context).pop();
                                     },

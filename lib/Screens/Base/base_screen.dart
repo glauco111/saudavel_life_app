@@ -5,6 +5,7 @@ import 'package:saudavel_life_v2/Screens/Home/home_screen.dart';
 import 'package:saudavel_life_v2/Screens/Products/products_screen.dart';
 import 'package:saudavel_life_v2/Screens/admin_orders/admin_orders_screen.dart';
 import 'package:saudavel_life_v2/Screens/admin_users/admin_users_screen.dart';
+import 'package:saudavel_life_v2/Screens/checkout_money/checkout_money_screen.dart';
 import 'package:saudavel_life_v2/Screens/orders/order_screen.dart';
 import 'package:saudavel_life_v2/common/custom_drawer/custom_drawer.dart';
 import 'package:saudavel_life_v2/models/page_manager.dart';
@@ -42,6 +43,7 @@ class _BaseScreenState extends State<BaseScreen> {
                 appBar: AppBar(
                   title: const Text("Home4"),
                 ),
+                body: CheckoutMoneyScreen(),
               ),
               if (userManager.adminEnabled) ...[
                 AdminUsersScreen(),

@@ -16,6 +16,8 @@ class CartTile extends StatelessWidget {
               .pushNamed('/product', arguments: cartProduct.product);
         },
         child: Card(
+          elevation: 10,
+          shadowColor: Theme.of(context).primaryColor,
           margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),

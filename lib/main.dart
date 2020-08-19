@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:saudavel_life_v2/Screens/Base/base_screen.dart';
@@ -18,12 +20,21 @@ import 'Screens/address/address_screen.dart';
 import 'Screens/Login/login_screen.dart';
 import 'Screens/Product/product_screen.dart';
 import 'Screens/checkout/checkout_screen.dart';
+import 'Screens/checkout_money/checkout_money_screen.dart';
 import 'Screens/confirmation/confirmation_screen.dart';
 import 'Screens/select_product/select_product_screen.dart';
 import 'models/admin_orders_manager.dart';
 import 'models/product.dart';
 
-void main() {
+// ignore: non_constant_identifier_names
+bool USE_FIRESTORE_EMULATOR = false;
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  if (USE_FIRESTORE_EMULATOR) {
+    FirebaseFirestore.instance.settings = const Settings(
+        host: 'localhost:8080', sslEnabled: false, persistenceEnabled: false);
+  }
   runApp(MyApp());
 }
 
@@ -54,7 +65,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProxyProvider<UserManager, OrdersManager>(
           create: (_) => OrdersManager(),
           update: (_, userManager, ordersManager) =>
-              ordersManager..updateUser(userManager.user),
+              ordersManager..updateUser(userManager.usuario),
           lazy: false,
         ),
         ChangeNotifierProxyProvider<UserManager, AdminOrdersManager>(
@@ -76,7 +87,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           brightness: Brightness.light,
           primaryColor: const Color.fromARGB(255, 41, 84, 38),
-          scaffoldBackgroundColor: const Color.fromARGB(255, 41, 84, 38),
+          scaffoldBackgroundColor: Colors.grey[100],
           appBarTheme: const AppBarTheme(
             elevation: 0,
           ),
@@ -100,6 +111,8 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(builder: (_) => AddressScreen());
             case '/checkout':
               return MaterialPageRoute(builder: (_) => CheckoutScreen());
+            case '/checkoutMoney':
+              return MaterialPageRoute(builder: (_) => CheckoutMoneyScreen());
             case '/signUp':
               return MaterialPageRoute(builder: (_) => SignUpScreen());
             case '/orderScreen':

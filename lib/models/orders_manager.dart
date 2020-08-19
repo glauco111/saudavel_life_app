@@ -6,14 +6,14 @@ import 'package:saudavel_life_v2/models/order.dart';
 import 'package:saudavel_life_v2/models/user.dart';
 
 class OrdersManager extends ChangeNotifier {
-  final Firestore firestore = Firestore.instance;
-  User user;
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  Usuario user;
 
   List<Order> orders = [];
 
   StreamSubscription _subscription;
 
-  void updateUser(User user) {
+  void updateUser(Usuario user) {
     this.user = user;
     orders.clear();
 
@@ -31,7 +31,7 @@ class OrdersManager extends ChangeNotifier {
         .snapshots()
         .listen((event) {
       orders.clear();
-      for (final doc in event.documents) {
+      for (final doc in event.docs) {
         orders.add(Order.fromDocument(doc));
       }
       notifyListeners();

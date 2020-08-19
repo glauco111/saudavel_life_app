@@ -7,9 +7,9 @@ import 'package:saudavel_life_v2/models/user.dart';
 import 'order.dart';
 
 class AdminOrdersManager extends ChangeNotifier {
-  final Firestore firestore = Firestore.instance;
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  User userFilter;
+  Usuario userFilter;
   List<Status> statusFilter = [Status.preparing];
 
   final List<Order> _orders = [];
@@ -47,7 +47,7 @@ class AdminOrdersManager extends ChangeNotifier {
     });
   }
 
-  void setUserFilter(User user) {
+  void setUserFilter(Usuario user) {
     userFilter = user;
     notifyListeners();
   }

@@ -11,12 +11,12 @@ class CartProduct extends ChangeNotifier {
   }
 
   CartProduct.fromDocument(DocumentSnapshot document) {
-    productId = document.data['pid'] as String;
-    id = document.documentID;
-    quantity = document.data['quantity'] as int;
-    size = document.data['size'] as String;
+    id = document.id;
+    productId = document.data()['pid'] as String;
+    quantity = document.data()['quantity'] as int;
+    size = document.data()['size'] as String;
 
-    firestore.document('products/$productId').get().then((doc) {
+    firestore.doc('products/$productId').get().then((doc) {
       product = Product.fromDocument(doc);
     });
   }
@@ -27,13 +27,15 @@ class CartProduct extends ChangeNotifier {
     size = map['size'] as String;
     fixedPrice = map['fixedPrice'] as num;
 
-    firestore.document('products/$productId').get().then((doc) {
+    firestore.doc('products/$productId').get().then((doc) {
       product = Product.fromDocument(doc);
     });
   }
 
-  final Firestore firestore = Firestore.instance;
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
   String id;
+
   String productId;
   int quantity;
   String size;
@@ -72,12 +74,12 @@ class CartProduct extends ChangeNotifier {
       'pid': productId,
       'quantity': quantity,
       'size': size,
-      'fixedPrice': fixedPrice ?? unitPrice
+      'fixedPrice': fixedPrice ?? unitPrice,
     };
   }
 
   bool stackable(Product product) {
-    return product.id == product.id && product.selectedSize.name == size;
+    return product.id == productId && product.selectedSize.name == size;
   }
 
   void increment() {
@@ -92,10 +94,9 @@ class CartProduct extends ChangeNotifier {
 
   bool get hasStock {
     if (product != null && product.deleted) return false;
+
     final size = itemSize;
-    if (size == null) {
-      return false;
-    }
+    if (size == null) return false;
     return size.stock >= quantity;
   }
 }

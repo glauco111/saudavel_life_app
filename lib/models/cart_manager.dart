@@ -10,16 +10,18 @@ import 'package:saudavel_life_v2/services/cep_aberto_service.dart';
 import 'address.dart';
 
 class CartManager extends ChangeNotifier {
-  Firestore firestore = Firestore.instance;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   List<CartProduct> items = [];
 
-  User user;
+  Usuario user;
   Address address;
 
   num productsPrice = 0.0;
   num deliveryPrice;
+  num deliveryz;
   num get totalPrice => productsPrice + (deliveryPrice ?? 0);
+  num get totalPrice2 => productsPrice;
 
   bool _loading = false;
   bool get loading => _loading;
@@ -29,7 +31,7 @@ class CartManager extends ChangeNotifier {
   }
 
   void updateUser(UserManager userManager) {
-    user = userManager.user;
+    user = userManager.usuario;
     productsPrice = 0.0;
     items.clear();
     removeAddress();
@@ -41,9 +43,9 @@ class CartManager extends ChangeNotifier {
   }
 
   Future<void> _loadCartItems() async {
-    final QuerySnapshot cartSnap = await user.carReference.getDocuments();
+    final QuerySnapshot cartSnap = await user.carReference.get();
 
-    items = cartSnap.documents
+    items = cartSnap.docs
         .map((d) => CartProduct.fromDocument(d)..addListener(_onItemUpdated))
         .toList();
   }
@@ -91,16 +93,14 @@ class CartManager extends ChangeNotifier {
 
   void removeOfCart(CartProduct cartProduct) {
     items.removeWhere((p) => p.id == cartProduct.id);
-    user.carReference.document(cartProduct.id).delete();
+    user.carReference.doc(cartProduct.id).delete();
     cartProduct.removeListener(_onItemUpdated);
     notifyListeners();
   }
 
   void _updateCartProduct(CartProduct cartProduct) {
     if (cartProduct.id != null) {
-      user.carReference
-          .document(cartProduct.id)
-          .updateData(cartProduct.toCartItemMap());
+      user.carReference.doc(cartProduct.id).update(cartProduct.toCartItemMap());
     }
   }
 
@@ -149,39 +149,49 @@ class CartManager extends ChangeNotifier {
     }
   }
 
+  void getProductInLoco() {
+    deliveryPrice = 0;
+    notifyListeners();
+  }
+
+  void setDelivery() {
+    deliveryPrice = deliveryz;
+    notifyListeners();
+  }
+
   void removeAddress() {
     address = null;
     deliveryPrice = null;
     notifyListeners();
   }
 
+  // ignore: missing_return
   Future<bool> calculateDelivery(double lat, double long) async {
-    final DocumentSnapshot doc = await firestore.document('aux/delivery').get();
-    final latStore = doc.data['lat'] as double;
-    final longStore = doc.data['long'] as double;
+    final DocumentSnapshot d = await firestore.doc('aux/delivery').get();
+    final latStore = d.data()['lat'] as double;
+    final longStore = d.data()['long'] as double;
 
     double dis =
         await Geolocator().distanceBetween(latStore, longStore, lat, long);
 
-    final maxKm = doc.data['maxKm'] as num;
-    final base = doc.data['base'] as num;
-    final km = doc.data['km'] as num;
+    final maxKm = d.data()['maxKm'] as num;
+    final base = d.data()['base'] as num;
+    final km = d.data()['km'] as num;
 
     dis /= 1000.0;
-
-    debugPrint('Distance $dis');
 
     if (dis > maxKm) {
       return false;
     }
 
     deliveryPrice = base + dis * km;
+    deliveryz = base + dis * km;
     return true;
   }
 
   void clear() {
     for (final cartProduct in items) {
-      user.carReference.document(cartProduct.id).delete();
+      user.carReference.doc(cartProduct.id).delete();
     }
     items.clear();
     notifyListeners();

@@ -9,15 +9,17 @@ import 'add_tile_widget.dart';
 
 class SectionList extends StatelessWidget {
   const SectionList(this.section);
+
   final Section section;
 
   @override
   Widget build(BuildContext context) {
     final homeManager = context.watch<HomeManager>();
+
     return ChangeNotifierProvider.value(
       value: section,
       child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[

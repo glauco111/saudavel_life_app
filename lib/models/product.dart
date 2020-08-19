@@ -10,31 +10,40 @@ import 'item_size.dart';
 class Product extends ChangeNotifier {
   Product(
       {this.id,
+      this.name,
       this.description,
       this.images,
-      this.name,
       this.sizes,
       this.deleted = false}) {
     images = images ?? [];
     sizes = sizes ?? [];
   }
-  Product.fromDocument(DocumentSnapshot document) {
-    id = document.documentID;
-    name = document['name'] as String;
-    description = document['description'] as String;
-    images = List<String>.from(document.data['images'] as List<dynamic>);
-    deleted = (document.data['deleted'] ?? false) as bool;
-    sizes = (document.data['sizes'] as List<dynamic> ?? [])
+
+  Product.fromDocument(DocumentSnapshot d) {
+    id = d.id;
+    name = d.data()['name'] as String;
+    description = d.data()['description'] as String;
+    images = List<String>.from(d.data()['images'] as List<dynamic>);
+    deleted = (d.data()['deleted'] ?? false) as bool;
+    sizes = (d.data()['sizes'] as List<dynamic> ?? [])
         .map((s) => ItemSize.fromMap(s as Map<String, dynamic>))
         .toList();
   }
+
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final FirebaseStorage storage = FirebaseStorage.instance;
+
+  DocumentReference get firestoreRef => firestore.doc('products/$id');
+  StorageReference get storageRef => storage.ref().child('products').child(id);
 
   String id;
   String name;
   String description;
   List<String> images;
   List<ItemSize> sizes;
+
   List<dynamic> newImages;
+
   bool deleted;
 
   bool _loading = false;
@@ -45,14 +54,7 @@ class Product extends ChangeNotifier {
   }
 
   ItemSize _selectedSize;
-
   ItemSize get selectedSize => _selectedSize;
-
-  final Firestore firestore = Firestore.instance;
-  final FirebaseStorage storage = FirebaseStorage.instance;
-  DocumentReference get firestoreRef => firestore.document('products/$id');
-  StorageReference get storageRef => storage.ref().child('products').child(id);
-
   set selectedSize(ItemSize value) {
     _selectedSize = value;
     notifyListeners();
@@ -70,7 +72,14 @@ class Product extends ChangeNotifier {
     return totalStock > 0 && !deleted;
   }
 
-  // ignore: missing_return
+  num get basePrice {
+    num lowest = double.infinity;
+    for (final size in sizes) {
+      if (size.price < lowest) lowest = size.price;
+    }
+    return lowest;
+  }
+
   ItemSize findSize(String name) {
     try {
       return sizes.firstWhere((s) => s.name == name);
@@ -79,22 +88,13 @@ class Product extends ChangeNotifier {
     }
   }
 
-  num get basePrice {
-    num lowest = double.infinity;
-    for (final size in sizes) {
-      if (size.price < lowest) {
-        lowest = size.price;
-      }
-    }
-    return lowest;
-  }
-
   List<Map<String, dynamic>> exportSizeList() {
     return sizes.map((size) => size.toMap()).toList();
   }
 
   Future<void> save() async {
     loading = true;
+
     final Map<String, dynamic> data = {
       'name': name,
       'description': description,
@@ -104,10 +104,11 @@ class Product extends ChangeNotifier {
 
     if (id == null) {
       final doc = await firestore.collection('products').add(data);
-      id = doc.documentID;
+      id = doc.id;
     } else {
-      await firestoreRef.updateData(data);
+      await firestoreRef.update(data);
     }
+
     final List<String> updateImages = [];
 
     for (final newImage in newImages) {
@@ -133,13 +134,15 @@ class Product extends ChangeNotifier {
       }
     }
 
-    await firestoreRef.updateData({'images': updateImages});
+    await firestoreRef.update({'images': updateImages});
+
     images = updateImages;
+
     loading = false;
   }
 
   void delete() {
-    firestoreRef.updateData({'deleted': true});
+    firestoreRef.update({'deleted': true});
   }
 
   Product clone() {
@@ -147,8 +150,8 @@ class Product extends ChangeNotifier {
       id: id,
       name: name,
       description: description,
-      sizes: sizes.map((size) => size.clone()).toList(),
       images: List.from(images),
+      sizes: sizes.map((size) => size.clone()).toList(),
       deleted: deleted,
     );
   }

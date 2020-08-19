@@ -5,7 +5,7 @@ import 'package:saudavel_life_v2/models/order.dart';
 import 'package:saudavel_life_v2/models/product.dart';
 
 class CheckoutManager extends ChangeNotifier {
-  final Firestore firestore = Firestore.instance;
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   CartManager cartManager;
   bool _loading = false;
@@ -45,11 +45,11 @@ class CheckoutManager extends ChangeNotifier {
   }
 
   Future<int> _getOrderId() async {
-    final ref = firestore.document('aux/ordercounter');
+    final ref = firestore.doc('aux/ordercounter');
     try {
       final result = await firestore.runTransaction((tx) async {
         final doc = await tx.get(ref);
-        final orderId = doc.data['current'] as int;
+        final orderId = doc.data()['current'] as int;
         await tx.update(ref, {'current': orderId + 1});
         return {'orderId': orderId};
       }, timeout: const Duration(seconds: 10));
@@ -72,7 +72,7 @@ class CheckoutManager extends ChangeNotifier {
                 .firstWhere((p) => p.id == cartProduct.productId);
           } else {
             final doc = await tx.get(
-              firestore.document('products/${cartProduct.productId}'),
+              firestore.doc('products/${cartProduct.productId}'),
             );
             product = Product.fromDocument(doc);
           }
@@ -94,7 +94,7 @@ class CheckoutManager extends ChangeNotifier {
               '${productsWithOutSock.length} produtos sem estoque');
         }
         for (final product in productsToUpdate) {
-          tx.update(firestore.document('products/${product.id}'),
+          tx.update(firestore.doc('products/${product.id}'),
               {'sizes': product.exportSizeList()});
         }
       },

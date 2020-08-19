@@ -2,22 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:saudavel_life_v2/models/cart_manager.dart';
 
-class PriceCard extends StatelessWidget {
-  const PriceCard({this.buttonText, this.onPressed, this.priceFinal});
+class PriceCardMoney extends StatelessWidget {
+  const PriceCardMoney({this.buttonText, this.onPressed});
 
   final String buttonText;
-  final String priceFinal;
   final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
     final cartManager = context.watch<CartManager>();
     final productsPrice = cartManager.productsPrice;
-    final deliveryPrice = cartManager.deliveryPrice;
-    final totalPrice = cartManager.totalPrice;
+    final totalPrice2 = cartManager.totalPrice2;
 
     return Card(
-      elevation: 10,
       margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),
@@ -38,16 +35,6 @@ class PriceCard extends StatelessWidget {
               ],
             ),
             const Divider(),
-            if (deliveryPrice != null) ...[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  const Text('Entrega:'),
-                  Text('R\$ ${deliveryPrice.toStringAsFixed(2)}')
-                ],
-              ),
-              const Divider(),
-            ],
             const SizedBox(height: 12),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -55,7 +42,7 @@ class PriceCard extends StatelessWidget {
                 Text('total',
                     style:
                         TextStyle(fontWeight: FontWeight.w600, fontSize: 16)),
-                Text('R\$ ${totalPrice.toStringAsFixed(2)}',
+                Text('R\$ ${totalPrice2.toStringAsFixed(2)}',
                     style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 16,

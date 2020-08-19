@@ -57,9 +57,10 @@ class CardFront extends StatelessWidget {
                       CartaoBancarioInputFormatter()
                     ],
                     validator: (number) {
-                      if (number.length != 19)
+                      if (number.length != 19) {
                         return 'Inválido';
-                      else if (detectCCType(number) == CreditCardType.unknown) {
+                      } else if (detectCCType(number) ==
+                          CreditCardType.unknown) {
                         return 'inválido';
                       }
                       return null;

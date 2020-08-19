@@ -12,9 +12,9 @@ class UserManager extends ChangeNotifier {
   }
 
   final FirebaseAuth auth = FirebaseAuth.instance;
-  final Firestore firestore = Firestore.instance;
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  User user;
+  Usuario usuario;
 
   bool _loading = false;
   bool get loading => _loading;
@@ -37,13 +37,14 @@ class UserManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool get isLoggedIn => user != null;
+  bool get isLoggedIn => usuario != null;
 
-  Future<void> signIn({User user, Function onFail, Function onSuccess}) async {
+  Future<void> signIn(
+      {Usuario usuario, Function onFail, Function onSuccess}) async {
     loading = true;
     try {
-      final AuthResult result = await auth.signInWithEmailAndPassword(
-          email: user.email, password: user.password);
+      final UserCredential result = await auth.signInWithEmailAndPassword(
+          email: usuario.email, password: usuario.password);
 
       await _loadCurrentUser(firebaseUser: result.user);
       // ignore: avoid_print
@@ -55,15 +56,16 @@ class UserManager extends ChangeNotifier {
     loading = false;
   }
 
-  Future<void> signUp({User user, Function onFail, Function onSuccess}) async {
+  Future<void> signUp(
+      {Usuario usuario, Function onFail, Function onSuccess}) async {
     loading = true;
     try {
-      final AuthResult result = await auth.createUserWithEmailAndPassword(
-          email: user.email, password: user.password);
+      final UserCredential result = await auth.createUserWithEmailAndPassword(
+          email: usuario.email, password: usuario.password);
 
-      user.id = result.user.uid;
-      this.user = user;
-      await user.saveData();
+      usuario.id = result.user.uid;
+      this.usuario = usuario;
+      await usuario.saveData();
       onSuccess();
     } on PlatformException catch (e) {
       onFail(getErrorString(e.code));
@@ -77,19 +79,20 @@ class UserManager extends ChangeNotifier {
 
     switch (result.status) {
       case FacebookLoginStatus.loggedIn:
-        final credential = FacebookAuthProvider.getCredential(
-            accessToken: result.accessToken.token);
-        final authResult = await auth.signInWithCredential(credential);
+        final credencial =
+            FacebookAuthProvider.credential(result.accessToken.token);
+
+        final authResult = await auth.signInWithCredential(credencial);
 
         if (authResult.user != null) {
           final firebaseUser = authResult.user;
 
-          user = User(
+          usuario = Usuario(
               id: firebaseUser.uid,
               name: firebaseUser.displayName,
               email: firebaseUser.email);
 
-          await user.saveData();
+          await usuario.saveData();
           onSuccess();
         }
 
@@ -105,26 +108,26 @@ class UserManager extends ChangeNotifier {
 
   void signOut() {
     auth.signOut();
-    user = null;
+    usuario = null;
     notifyListeners();
   }
 
-  Future<void> _loadCurrentUser({FirebaseUser firebaseUser}) async {
-    final FirebaseUser currentUser = firebaseUser ?? await auth.currentUser();
+  Future<void> _loadCurrentUser({User firebaseUser}) async {
+    final User currentUser = firebaseUser ?? await auth.currentUser;
     if (currentUser != null) {
       final DocumentSnapshot docUser =
-          await firestore.collection('users').document(currentUser.uid).get();
-      user = User.fromDocument(docUser);
+          await firestore.collection('users').doc(currentUser.uid).get();
+      usuario = Usuario.fromDocument(docUser);
 
       final docAdmin =
-          await firestore.collection('admins').document(user.id).get();
+          await firestore.collection('admins').doc(usuario.id).get();
       if (docAdmin.exists) {
-        user.admin = true;
+        usuario.admin = true;
       }
 
       notifyListeners();
     }
   }
 
-  bool get adminEnabled => user != null && user.admin;
+  bool get adminEnabled => usuario != null && usuario.admin;
 }

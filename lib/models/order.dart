@@ -6,10 +6,10 @@ import 'package:saudavel_life_v2/models/cart_product.dart';
 enum Status { canceled, preparing, transporting, delivered }
 
 class Order {
-  final Firestore firestore = Firestore.instance;
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   DocumentReference get firestoreRef =>
-      firestore.collection('orders').document(orderId);
+      firestore.collection('orders').doc(orderId);
 
   Order.fromCartManager(CartManager cartManager) {
     items = List.from(cartManager.items);
@@ -20,29 +20,29 @@ class Order {
   }
 
   Order.fromDocument(DocumentSnapshot doc) {
-    orderId = doc.documentID;
-    items = (doc.data['items'] as List<dynamic>).map((e) {
+    orderId = doc.id;
+    items = (doc.data()['items'] as List<dynamic>).map((e) {
       return CartProduct.fromMap(e as Map<String, dynamic>);
     }).toList();
-    price = doc.data['price'] as num;
-    userId = doc.data['user'] as String;
-    address = Address.fromMap(doc.data['address'] as Map<String, dynamic>);
-    date = doc.data['date'] as Timestamp;
+    price = doc.data()['price'] as num;
+    userId = doc.data()['user'] as String;
+    address = Address.fromMap(doc.data()['address'] as Map<String, dynamic>);
+    date = doc.data()['date'] as Timestamp;
 
-    status = Status.values[doc.data['status'] as int];
+    status = Status.values[doc.data()['status'] as int];
   }
 
   void updateFromDocument(DocumentSnapshot doc) {
-    status = Status.values[doc.data['status'] as int];
+    status = Status.values[doc.data()['status'] as int];
   }
 
   void cancel() {
     status = Status.canceled;
-    firestoreRef.updateData({'status': status.index});
+    firestoreRef.update({'status': status.index});
   }
 
   Future<void> save() async {
-    firestoreRef.setData(
+    firestoreRef.set(
       {
         'items': items.map((e) => e.toOrderItemMap()).toList(),
         'price': price,
@@ -58,7 +58,7 @@ class Order {
     return status.index >= Status.transporting.index
         ? () {
             status = Status.values[status.index - 1];
-            firestoreRef.updateData({'status': status.index});
+            firestoreRef.update({'status': status.index});
           }
         : null;
   }
@@ -67,7 +67,7 @@ class Order {
     return status.index <= Status.transporting.index
         ? () {
             status = Status.values[status.index + 1];
-            firestoreRef.updateData({'status': status.index});
+            firestoreRef.update({'status': status.index});
           }
         : null;
   }

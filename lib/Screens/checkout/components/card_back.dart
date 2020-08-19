@@ -43,7 +43,7 @@ class CardBack extends StatelessWidget {
                       ],
                       validator: (cvv) {
                         // ignore: unrelated_type_equality_checks
-                        if (cvv != 3) {
+                        if (cvv.length != 3) {
                           return 'inválido';
                         }
                         return null;

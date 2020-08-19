@@ -1,16 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:saudavel_life_v2/models/address.dart';
 
-class User {
-  User({this.email, this.password, this.name, this.password2, this.id});
+class Usuario {
+  Usuario({this.email, this.password, this.name, this.password2, this.id});
 
-  User.fromDocument(DocumentSnapshot document) {
-    id = document.documentID;
-    name = document.data['name'] as String;
-    email = document.data['email'] as String;
-    if (document.data.containsKey('address')) {
+  Usuario.fromDocument(DocumentSnapshot document) {
+    id = document.id;
+    name = document.data()['name'] as String;
+    email = document.data()['email'] as String;
+    if (document.data().containsKey('address')) {
       address =
-          Address.fromMap(document.data['address'] as Map<String, dynamic>);
+          Address.fromMap(document.data()['address'] as Map<String, dynamic>);
     }
   }
 
@@ -22,12 +22,12 @@ class User {
   bool admin = false;
   Address address;
   DocumentReference get firestoreRef =>
-      Firestore.instance.document('users/$id');
+      FirebaseFirestore.instance.doc('users/$id');
 
   CollectionReference get carReference => firestoreRef.collection('cart');
 
   Future<void> saveData() async {
-    await firestoreRef.setData(toMap());
+    await firestoreRef.set(toMap());
   }
 
   Map<String, dynamic> toMap() {

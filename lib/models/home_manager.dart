@@ -8,12 +8,13 @@ class HomeManager extends ChangeNotifier {
   }
 
   final List<Section> _sections = [];
+
   List<Section> _editingSections = [];
 
   bool editing = false;
   bool loading = false;
 
-  Firestore firestore = Firestore.instance;
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   Future<void> _loadSections() async {
     firestore.collection('home').orderBy('pos').snapshots().listen((snapshot) {
@@ -23,6 +24,16 @@ class HomeManager extends ChangeNotifier {
       }
       notifyListeners();
     });
+  }
+
+  void addSection(Section section) {
+    _editingSections.add(section);
+    notifyListeners();
+  }
+
+  void removeSection(Section section) {
+    _editingSections.remove(section);
+    notifyListeners();
   }
 
   List<Section> get sections {
@@ -35,17 +46,19 @@ class HomeManager extends ChangeNotifier {
 
   void enterEditing() {
     editing = true;
+
     _editingSections = _sections.map((s) => s.clone()).toList();
+
     notifyListeners();
   }
 
   Future<void> saveEditing() async {
-    //TODO: Validation
     bool valid = true;
     for (final section in _editingSections) {
       if (!section.valid()) valid = false;
     }
     if (!valid) return;
+
     loading = true;
     notifyListeners();
 
@@ -56,28 +69,18 @@ class HomeManager extends ChangeNotifier {
     }
 
     for (final section in List.from(_sections)) {
-      if (_editingSections.any((element) => element.id == section.id)) {
+      if (!_editingSections.any((element) => element.id == section.id)) {
         await section.delete();
       }
     }
 
-    editing = false;
     loading = false;
+    editing = false;
     notifyListeners();
   }
 
   void discardEditing() {
     editing = false;
-    notifyListeners();
-  }
-
-  void addSection(Section section) {
-    _editingSections.add(section);
-    notifyListeners();
-  }
-
-  void removeSection(Section section) {
-    _editingSections.remove(section);
     notifyListeners();
   }
 }
