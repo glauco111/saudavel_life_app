@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:saudavel_life_v2/Helpers/firebase_errors.dart';
 import 'package:saudavel_life_v2/models/user.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class UserManager extends ChangeNotifier {
   UserManager() {
@@ -90,11 +92,19 @@ class UserManager extends ChangeNotifier {
           usuario = Usuario(
               id: firebaseUser.uid,
               name: firebaseUser.displayName,
-              email: firebaseUser.email);
+              email: firebaseUser.email,
+              image: firebaseUser.photoURL);
 
           await usuario.saveData();
           onSuccess();
         }
+
+        final token = result.accessToken.token;
+        final graphResponse = await http.get(
+            'https://graph.facebook.com/v2.12/me?fields=name,picture.width(800).height(800),first_name,last_name,email&access_token=${token}');
+        final profile = json.decode(graphResponse.body);
+        final photoUrl = profile["picture"]["data"]["url"];
+        print(photoUrl);
 
         break;
       case FacebookLoginStatus.cancelledByUser:

@@ -7,19 +7,19 @@ import 'package:saudavel_life_v2/models/user.dart';
 
 class OrdersManager extends ChangeNotifier {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  Usuario user;
+  Usuario usuario;
 
   List<Order> orders = [];
 
   StreamSubscription _subscription;
 
-  void updateUser(Usuario user) {
-    this.user = user;
+  void updateUser(Usuario usuario) {
+    this.usuario = usuario;
     orders.clear();
 
     _subscription?.cancel();
 
-    if (user != null) {
+    if (usuario != null) {
       _listenToOrders();
     }
   }
@@ -27,7 +27,7 @@ class OrdersManager extends ChangeNotifier {
   void _listenToOrders() {
     _subscription = firestore
         .collection('orders')
-        .where('user', isEqualTo: user.id)
+        .where('user', isEqualTo: usuario.id)
         .snapshots()
         .listen((event) {
       orders.clear();

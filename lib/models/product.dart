@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 import 'item_size.dart';
@@ -19,13 +19,13 @@ class Product extends ChangeNotifier {
     sizes = sizes ?? [];
   }
 
-  Product.fromDocument(DocumentSnapshot d) {
-    id = d.id;
-    name = d.data()['name'] as String;
-    description = d.data()['description'] as String;
-    images = List<String>.from(d.data()['images'] as List<dynamic>);
-    deleted = (d.data()['deleted'] ?? false) as bool;
-    sizes = (d.data()['sizes'] as List<dynamic> ?? [])
+  Product.fromDocument(DocumentSnapshot document) {
+    id = document.id;
+    name = document.data()['name'] as String;
+    description = document.data()['description'] as String;
+    images = List<String>.from(document.data()['images'] as List<dynamic>);
+    deleted = (document.data()['deleted'] ?? false) as bool;
+    sizes = (document.data()['sizes'] as List<dynamic> ?? [])
         .map((s) => ItemSize.fromMap(s as Map<String, dynamic>))
         .toList();
   }
@@ -104,9 +104,9 @@ class Product extends ChangeNotifier {
 
     if (id == null) {
       final doc = await firestore.collection('products').add(data);
-      id = doc.id;
+      id = doc.documentID;
     } else {
-      await firestoreRef.update(data);
+      await firestoreRef.updateData(data);
     }
 
     final List<String> updateImages = [];
@@ -134,7 +134,7 @@ class Product extends ChangeNotifier {
       }
     }
 
-    await firestoreRef.update({'images': updateImages});
+    await firestoreRef.updateData({'images': updateImages});
 
     images = updateImages;
 
@@ -142,7 +142,7 @@ class Product extends ChangeNotifier {
   }
 
   void delete() {
-    firestoreRef.update({'deleted': true});
+    firestoreRef.updateData({'deleted': true});
   }
 
   Product clone() {

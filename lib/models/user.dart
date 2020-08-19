@@ -2,9 +2,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:saudavel_life_v2/models/address.dart';
 
 class Usuario {
-  Usuario({this.email, this.password, this.name, this.password2, this.id});
+  Usuario(
+      {this.email,
+      this.password,
+      this.name,
+      this.password2,
+      this.id,
+      this.image});
 
   Usuario.fromDocument(DocumentSnapshot document) {
+    image = document.data()['image'] as String;
     id = document.id;
     name = document.data()['name'] as String;
     email = document.data()['email'] as String;
@@ -18,6 +25,7 @@ class Usuario {
   String email;
   String password;
   String name;
+  String image;
   String password2;
   bool admin = false;
   Address address;
