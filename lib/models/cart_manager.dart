@@ -6,15 +6,14 @@ import 'package:saudavel_life_v2/models/product.dart';
 import 'package:saudavel_life_v2/models/user.dart';
 import 'package:saudavel_life_v2/models/user_manager.dart';
 import 'package:saudavel_life_v2/services/cep_aberto_service.dart';
-
 import 'address.dart';
 
 class CartManager extends ChangeNotifier {
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  Firestore firestore = Firestore.instance;
 
   List<CartProduct> items = [];
 
-  Usuario user;
+  User user;
   Address address;
 
   num productsPrice = 0.0;
@@ -31,7 +30,7 @@ class CartManager extends ChangeNotifier {
   }
 
   void updateUser(UserManager userManager) {
-    user = userManager.usuario;
+    user = userManager.user;
     productsPrice = 0.0;
     items.clear();
     removeAddress();
@@ -43,9 +42,8 @@ class CartManager extends ChangeNotifier {
   }
 
   Future<void> _loadCartItems() async {
-    final QuerySnapshot cartSnap = await user.carReference.get();
-
-    items = cartSnap.docs
+    final QuerySnapshot cartSnap = await user.cartReference.getDocuments();
+    items = cartSnap.documents
         .map((d) => CartProduct.fromDocument(d)..addListener(_onItemUpdated))
         .toList();
   }
@@ -66,7 +64,7 @@ class CartManager extends ChangeNotifier {
       final cartProduct = CartProduct.fromProduct(product);
       cartProduct.addListener(_onItemUpdated);
       items.add(cartProduct);
-      user.carReference
+      user.cartReference
           .add(cartProduct.toCartItemMap())
           .then((doc) => cartProduct.id = doc.documentID);
       _onItemUpdated();
@@ -76,7 +74,6 @@ class CartManager extends ChangeNotifier {
 
   void _onItemUpdated() {
     productsPrice = 0.0;
-
     for (int i = 0; i < items.length; i++) {
       final cartProduct = items[i];
       if (cartProduct.quantity == 0) {
@@ -84,7 +81,6 @@ class CartManager extends ChangeNotifier {
         i--;
         continue;
       }
-
       productsPrice += cartProduct.totalPrice;
       _updateCartProduct(cartProduct);
     }
@@ -93,14 +89,16 @@ class CartManager extends ChangeNotifier {
 
   void removeOfCart(CartProduct cartProduct) {
     items.removeWhere((p) => p.id == cartProduct.id);
-    user.carReference.doc(cartProduct.id).delete();
+    user.cartReference.document(cartProduct.id).delete();
     cartProduct.removeListener(_onItemUpdated);
     notifyListeners();
   }
 
   void _updateCartProduct(CartProduct cartProduct) {
     if (cartProduct.id != null) {
-      user.carReference.doc(cartProduct.id).update(cartProduct.toCartItemMap());
+      user.cartReference
+          .document(cartProduct.id)
+          .updateData(cartProduct.toCartItemMap());
     }
   }
 
@@ -112,14 +110,12 @@ class CartManager extends ChangeNotifier {
   }
 
   bool get isAddressValid => address != null && deliveryPrice != null;
-
   //address
   Future<void> getAddress(String cep) async {
     loading = true;
     final cepAbertoService = CepAbertoService();
     try {
       final cepAbertoAddress = await cepAbertoService.getAddressFromCep(cep);
-
       if (cepAbertoAddress != null) {
         address = Address(
             street: cepAbertoAddress.logradouro,
@@ -167,18 +163,20 @@ class CartManager extends ChangeNotifier {
 
   // ignore: missing_return
   Future<bool> calculateDelivery(double lat, double long) async {
-    final DocumentSnapshot d = await firestore.doc('aux/delivery').get();
-    final latStore = d.data()['lat'] as double;
-    final longStore = d.data()['long'] as double;
+    final DocumentSnapshot doc = await firestore.document('aux/delivery').get();
+    final latStore = doc.data['lat'] as double;
+    final longStore = doc.data['long'] as double;
 
     double dis =
         await Geolocator().distanceBetween(latStore, longStore, lat, long);
 
-    final maxKm = d.data()['maxKm'] as num;
-    final base = d.data()['base'] as num;
-    final km = d.data()['km'] as num;
+    final maxKm = doc.data['maxKm'] as num;
+    final base = doc.data['base'] as num;
+    final km = doc.data['km'] as num;
 
     dis /= 1000.0;
+
+    debugPrint('Distance $dis');
 
     if (dis > maxKm) {
       return false;
@@ -191,7 +189,7 @@ class CartManager extends ChangeNotifier {
 
   void clear() {
     for (final cartProduct in items) {
-      user.carReference.doc(cartProduct.id).delete();
+      user.cartReference.document(cartProduct.id).delete();
     }
     items.clear();
     notifyListeners();

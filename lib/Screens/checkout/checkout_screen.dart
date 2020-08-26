@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:saudavel_life_v2/Screens/Cart/components/cart_tile.dart';
 import 'package:saudavel_life_v2/common/card/price_card.dart';
 import 'package:saudavel_life_v2/models/cart_manager.dart';
 import 'package:saudavel_life_v2/models/checkout_manager.dart';
@@ -7,10 +8,12 @@ import 'package:saudavel_life_v2/models/checkout_manager.dart';
 import 'components/credit_card_widget.dart';
 
 class CheckoutScreen extends StatelessWidget {
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
+    final Color primaryColor = Theme.of(context).primaryColor;
     return ChangeNotifierProxyProvider<CartManager, CheckoutManager>(
       create: (_) => CheckoutManager(),
       update: (_, cartManager, checkoutManager) =>
@@ -27,9 +30,10 @@ class CheckoutScreen extends StatelessWidget {
             if (checkoutManager.loading) {
               return Center(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation(Colors.white),
+                      valueColor: AlwaysStoppedAnimation(primaryColor),
                     ),
                     const SizedBox(
                       height: 16,
@@ -37,10 +41,10 @@ class CheckoutScreen extends StatelessWidget {
                     Text(
                       'Processando seu pagamento...',
                       style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600),
-                    ),
+                          color: primaryColor,
+                          fontWeight: FontWeight.w800,
+                          fontSize: 16),
+                    )
                   ],
                 ),
               );
@@ -49,19 +53,12 @@ class CheckoutScreen extends StatelessWidget {
               key: formKey,
               child: ListView(
                 children: <Widget>[
-                  CreditCardWidget(),
+                  //CreditCardWidget(),
                   PriceCard(
                     buttonText: 'Finalizar Pedido',
                     onPressed: () {
                       if (formKey.currentState.validate()) {
                         checkoutManager.checkout(onStockFail: (e) {
-                          scaffoldKey.currentState.showSnackBar(
-                            SnackBar(
-                              backgroundColor: Colors.red,
-                              content: const Text(
-                                  'Ocorreu uma falha ao processar sua compra'),
-                            ),
-                          );
                           Navigator.of(context).popUntil(
                               (route) => route.settings.name == '/cart');
                         }, onSuccess: (order) {
@@ -72,7 +69,7 @@ class CheckoutScreen extends StatelessWidget {
                         });
                       }
                     },
-                  ),
+                  )
                 ],
               ),
             );

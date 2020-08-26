@@ -20,20 +20,20 @@ class Product extends ChangeNotifier {
   }
 
   Product.fromDocument(DocumentSnapshot document) {
-    id = document.id;
-    name = document.data()['name'] as String;
-    description = document.data()['description'] as String;
-    images = List<String>.from(document.data()['images'] as List<dynamic>);
-    deleted = (document.data()['deleted'] ?? false) as bool;
-    sizes = (document.data()['sizes'] as List<dynamic> ?? [])
+    id = document.documentID;
+    name = document['name'] as String;
+    description = document['description'] as String;
+    images = List<String>.from(document.data['images'] as List<dynamic>);
+    deleted = (document.data['deleted'] ?? false) as bool;
+    sizes = (document.data['sizes'] as List<dynamic> ?? [])
         .map((s) => ItemSize.fromMap(s as Map<String, dynamic>))
         .toList();
   }
 
-  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final Firestore firestore = Firestore.instance;
   final FirebaseStorage storage = FirebaseStorage.instance;
 
-  DocumentReference get firestoreRef => firestore.doc('products/$id');
+  DocumentReference get firestoreRef => firestore.document('products/$id');
   StorageReference get storageRef => storage.ref().child('products').child(id);
 
   String id;

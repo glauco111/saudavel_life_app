@@ -15,6 +15,8 @@ class AddressScreen extends StatefulWidget {
 }
 
 class _AddressScreenState extends State<AddressScreen> {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   Color verde = Colors.green[300];
   @override
   Widget build(BuildContext context) {
@@ -96,14 +98,13 @@ class _AddressScreenState extends State<AddressScreen> {
               return Column(
                 children: <Widget>[
                   PriceCard(
-                    buttonText: 'Continuar para o pagamento',
+                    buttonText: 'Finalizar Compra',
                     onPressed: cartManager.isAddressValid
                         ? () {
                             // ignore: unrelated_type_equality_checks
                             widget.value1 == true
                                 ? Navigator.of(context).pushNamed('/checkout')
-                                : Navigator.of(context)
-                                    .pushNamed('/checkoutMoney');
+                                : Navigator.of(context).pushNamed('/checkout');
                           }
                         : null,
                   ),

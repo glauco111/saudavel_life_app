@@ -1,21 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:saudavel_life_v2/Screens/address/components/address_card.dart';
+import 'package:saudavel_life_v2/Screens/checkout_money/components/address_card2.dart';
 import 'package:saudavel_life_v2/models/cart_manager.dart';
 import 'package:saudavel_life_v2/models/checkout_manager.dart';
 
 // ignore: must_be_immutable
-class CheckoutMoneyScreen extends StatefulWidget {
-  CheckoutMoneyScreen({this.value});
-  bool value = true;
-  @override
-  _CheckoutMoneyScreenState createState() => _CheckoutMoneyScreenState();
-}
-
-class _CheckoutMoneyScreenState extends State<CheckoutMoneyScreen> {
+class Checkout2 extends StatelessWidget {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProxyProvider<CartManager, CheckoutManager>(
@@ -26,11 +19,11 @@ class _CheckoutMoneyScreenState extends State<CheckoutMoneyScreen> {
       child: Scaffold(
         key: scaffoldKey,
         appBar: AppBar(
-          title: const Text('Pagamento'),
+          title: const Text("Cadastre seu Endereço"),
           centerTitle: true,
         ),
-        body: Consumer2<CheckoutManager, CartManager>(
-          builder: (_, checkoutManager, cartManager, __) {
+        body: Consumer<CheckoutManager>(
+          builder: (_, checkoutManager, __) {
             if (checkoutManager.loading) {
               return Center(
                 child: Column(
@@ -56,82 +49,8 @@ class _CheckoutMoneyScreenState extends State<CheckoutMoneyScreen> {
               key: formKey,
               child: ListView(
                 children: <Widget>[
-                  Card(
-                    elevation: 10,
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        const SizedBox(width: 30),
-                        GestureDetector(
-                          onTap: () => setState(() => widget.value = false),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              GestureDetector(
-                                onTap: () {
-                                  cartManager.getProductInLoco();
-                                  widget.value = false;
-                                },
-                                child: Container(
-                                  margin: const EdgeInsets.all(5.0),
-                                  height: 56,
-                                  width: 56,
-                                  decoration: BoxDecoration(
-                                      color: (widget.value == false)
-                                          ? Colors.green[300]
-                                          : Colors.transparent,
-                                      borderRadius: BorderRadius.circular(5)),
-                                  child: Image.asset('assets/images/box.png'),
-                                ),
-                              ),
-                              Text(
-                                'Retirada',
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.w800),
-                              )
-                            ],
-                          ),
-                        ),
-                        const SizedBox(width: 50),
-                        GestureDetector(
-                          onTap: () => setState(() => widget.value = true),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              GestureDetector(
-                                onTap: () {
-                                  cartManager.setDelivery();
-                                  widget.value = true;
-                                },
-                                child: Container(
-                                  margin: const EdgeInsets.all(5.0),
-                                  height: 56,
-                                  width: 56,
-                                  decoration: BoxDecoration(
-                                      color: (widget.value == true)
-                                          ? Colors.green[300]
-                                          : Colors.transparent,
-                                      borderRadius: BorderRadius.circular(5)),
-                                  child:
-                                      Image.asset('assets/images/delivery.png'),
-                                ),
-                              ),
-                              Text(
-                                'Delivery',
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.w800),
-                              )
-                            ],
-                          ),
-                        ),
-                        const SizedBox(width: 30),
-                      ],
-                    ),
-                  ),
+                  //CreditCardWidget(),
+                  AddressCard2(),
                 ],
               ),
             );

@@ -12,7 +12,7 @@ class PriceCardMoney extends StatelessWidget {
   Widget build(BuildContext context) {
     final cartManager = context.watch<CartManager>();
     final productsPrice = cartManager.productsPrice;
-    final totalPrice2 = cartManager.totalPrice2;
+    final totalPrice = cartManager.totalPrice;
 
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
@@ -42,7 +42,7 @@ class PriceCardMoney extends StatelessWidget {
                 Text('total',
                     style:
                         TextStyle(fontWeight: FontWeight.w600, fontSize: 16)),
-                Text('R\$ ${totalPrice2.toStringAsFixed(2)}',
+                Text('R\$ ${totalPrice.toStringAsFixed(2)}',
                     style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 16,

@@ -14,7 +14,7 @@ class HomeManager extends ChangeNotifier {
   bool editing = false;
   bool loading = false;
 
-  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final Firestore firestore = Firestore.instance;
 
   Future<void> _loadSections() async {
     firestore.collection('home').orderBy('pos').snapshots().listen((snapshot) {

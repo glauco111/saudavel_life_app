@@ -4,8 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:saudavel_life_v2/models/address.dart';
 import 'package:saudavel_life_v2/models/cart_manager.dart';
 
-class AddressInputField extends StatelessWidget {
-  const AddressInputField(this.address);
+class AddressInputField2 extends StatelessWidget {
+  const AddressInputField2(this.address);
 
   final Address address;
 
@@ -141,6 +141,7 @@ class AddressInputField extends StatelessWidget {
                 Form.of(context).save();
                 try {
                   await context.read<CartManager>().setAddress(address);
+                  Navigator.of(context).pushNamed('/base');
                 } catch (e) {
                   Scaffold.of(context).showSnackBar(
                     SnackBar(
@@ -151,7 +152,7 @@ class AddressInputField extends StatelessWidget {
                 }
               }
             },
-            child: const Text('Calcular Frete'),
+            child: const Text('Confirmar Endereço'),
           ),
         ],
       );

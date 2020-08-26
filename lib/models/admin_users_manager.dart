@@ -5,7 +5,11 @@ import 'package:saudavel_life_v2/models/user.dart';
 import 'package:saudavel_life_v2/models/user_manager.dart';
 
 class AdminUsersManager extends ChangeNotifier {
-  List<Usuario> users = [];
+  List<User> users = [];
+
+  final Firestore firestore = Firestore.instance;
+
+  StreamSubscription _subscription;
 
   void updateUser(UserManager userManager) {
     _subscription?.cancel();
@@ -13,17 +17,14 @@ class AdminUsersManager extends ChangeNotifier {
       _listenToUsers();
     } else {
       users.clear();
+      notifyListeners();
     }
   }
-
-  final FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-  StreamSubscription _subscription;
 
   void _listenToUsers() {
     _subscription =
         firestore.collection('users').snapshots().listen((snapshot) {
-      users = snapshot.docs.map((e) => Usuario.fromDocument(e)).toList();
+      users = snapshot.documents.map((d) => User.fromDocument(d)).toList();
       users
           .sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
       notifyListeners();

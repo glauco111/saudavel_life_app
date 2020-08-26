@@ -11,12 +11,12 @@ class CartProduct extends ChangeNotifier {
   }
 
   CartProduct.fromDocument(DocumentSnapshot document) {
-    id = document.id;
-    productId = document.data()['pid'] as String;
-    quantity = document.data()['quantity'] as int;
-    size = document.data()['size'] as String;
+    id = document.documentID;
+    productId = document.data['pid'] as String;
+    quantity = document.data['quantity'] as int;
+    size = document.data['size'] as String;
 
-    firestore.doc('products/$productId').get().then((doc) {
+    firestore.document('products/$productId').get().then((doc) {
       product = Product.fromDocument(doc);
     });
   }
@@ -27,12 +27,12 @@ class CartProduct extends ChangeNotifier {
     size = map['size'] as String;
     fixedPrice = map['fixedPrice'] as num;
 
-    firestore.doc('products/$productId').get().then((doc) {
+    firestore.document('products/$productId').get().then((doc) {
       product = Product.fromDocument(doc);
     });
   }
 
-  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final Firestore firestore = Firestore.instance;
 
   String id;
 

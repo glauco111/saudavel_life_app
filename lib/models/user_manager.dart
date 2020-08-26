@@ -5,8 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:saudavel_life_v2/Helpers/firebase_errors.dart';
 import 'package:saudavel_life_v2/models/user.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class UserManager extends ChangeNotifier {
   UserManager() {
@@ -14,9 +12,9 @@ class UserManager extends ChangeNotifier {
   }
 
   final FirebaseAuth auth = FirebaseAuth.instance;
-  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final Firestore firestore = Firestore.instance;
 
-  Usuario usuario;
+  User user;
 
   bool _loading = false;
   bool get loading => _loading;
@@ -25,49 +23,23 @@ class UserManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  // ignore: unused_field
-  final bool _loadingFace = false;
-  bool get loadingFace => _loading;
+  bool _loadingFace = false;
+  bool get loadingFace => _loadingFace;
   set loadingFace(bool value) {
-    _loading = value;
+    _loadingFace = value;
     notifyListeners();
   }
 
-  // ignore: avoid_positional_boolean_parameters
-  void setLoading(bool value) {
-    _loading = value;
-    notifyListeners();
-  }
+  bool get isLoggedIn => user != null;
 
-  bool get isLoggedIn => usuario != null;
-
-  Future<void> signIn(
-      {Usuario usuario, Function onFail, Function onSuccess}) async {
+  Future<void> signIn({User user, Function onFail, Function onSuccess}) async {
     loading = true;
     try {
-      final UserCredential result = await auth.signInWithEmailAndPassword(
-          email: usuario.email, password: usuario.password);
+      final AuthResult result = await auth.signInWithEmailAndPassword(
+          email: user.email, password: user.password);
 
       await _loadCurrentUser(firebaseUser: result.user);
-      // ignore: avoid_print
-      onSuccess();
-    } on PlatformException catch (e) {
-      // ignore: avoid_print
-      onFail(getErrorString(e.code));
-    }
-    loading = false;
-  }
 
-  Future<void> signUp(
-      {Usuario usuario, Function onFail, Function onSuccess}) async {
-    loading = true;
-    try {
-      final UserCredential result = await auth.createUserWithEmailAndPassword(
-          email: usuario.email, password: usuario.password);
-
-      usuario.id = result.user.uid;
-      this.usuario = usuario;
-      await usuario.saveData();
       onSuccess();
     } on PlatformException catch (e) {
       onFail(getErrorString(e.code));
@@ -77,35 +49,30 @@ class UserManager extends ChangeNotifier {
 
   Future<void> facebookLogin({Function onFail, Function onSuccess}) async {
     loadingFace = true;
+
     final result = await FacebookLogin().logIn(['email', 'public_profile']);
 
     switch (result.status) {
       case FacebookLoginStatus.loggedIn:
-        final credencial =
-            FacebookAuthProvider.credential(result.accessToken.token);
+        final credential = FacebookAuthProvider.getCredential(
+            accessToken: result.accessToken.token);
 
-        final authResult = await auth.signInWithCredential(credencial);
+        final authResult = await auth.signInWithCredential(credential);
 
         if (authResult.user != null) {
           final firebaseUser = authResult.user;
 
-          usuario = Usuario(
+          user = User(
               id: firebaseUser.uid,
               name: firebaseUser.displayName,
-              email: firebaseUser.email,
-              image: firebaseUser.photoURL);
+              email: firebaseUser.email);
 
-          await usuario.saveData();
+          await user.saveData();
+
+          user.saveToken();
+
           onSuccess();
         }
-
-        final token = result.accessToken.token;
-        final graphResponse = await http.get(
-            'https://graph.facebook.com/v2.12/me?fields=name,picture.width(800).height(800),first_name,last_name,email&access_token=${token}');
-        final profile = json.decode(graphResponse.body);
-        final photoUrl = profile["picture"]["data"]["url"];
-        print(photoUrl);
-
         break;
       case FacebookLoginStatus.cancelledByUser:
         break;
@@ -113,31 +80,54 @@ class UserManager extends ChangeNotifier {
         onFail(result.errorMessage);
         break;
     }
+
     loadingFace = false;
+  }
+
+  Future<void> signUp({User user, Function onFail, Function onSuccess}) async {
+    loading = true;
+    try {
+      final AuthResult result = await auth.createUserWithEmailAndPassword(
+          email: user.email, password: user.password);
+
+      user.id = result.user.uid;
+      this.user = user;
+
+      await user.saveData();
+
+      user.saveToken();
+
+      onSuccess();
+    } on PlatformException catch (e) {
+      onFail(getErrorString(e.code));
+    }
+    loading = false;
   }
 
   void signOut() {
     auth.signOut();
-    usuario = null;
+    user = null;
     notifyListeners();
   }
 
-  Future<void> _loadCurrentUser({User firebaseUser}) async {
-    final User currentUser = firebaseUser ?? await auth.currentUser;
+  Future<void> _loadCurrentUser({FirebaseUser firebaseUser}) async {
+    final FirebaseUser currentUser = firebaseUser ?? await auth.currentUser();
     if (currentUser != null) {
       final DocumentSnapshot docUser =
-          await firestore.collection('users').doc(currentUser.uid).get();
-      usuario = Usuario.fromDocument(docUser);
+          await firestore.collection('users').document(currentUser.uid).get();
+      user = User.fromDocument(docUser);
+
+      user.saveToken();
 
       final docAdmin =
-          await firestore.collection('admins').doc(usuario.id).get();
+          await firestore.collection('admins').document(user.id).get();
       if (docAdmin.exists) {
-        usuario.admin = true;
+        user.admin = true;
       }
 
       notifyListeners();
     }
   }
 
-  bool get adminEnabled => usuario != null && usuario.admin;
+  bool get adminEnabled => user != null && user.admin;
 }

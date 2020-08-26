@@ -1,16 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:saudavel_life_v2/models/address.dart';
 import 'package:saudavel_life_v2/models/cart_manager.dart';
 import 'package:saudavel_life_v2/models/cart_product.dart';
+import 'package:saudavel_life_v2/services/cielo_payment.dart';
 
 enum Status { canceled, preparing, transporting, delivered }
 
 class Order {
-  final FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-  DocumentReference get firestoreRef =>
-      firestore.collection('orders').doc(orderId);
-
   Order.fromCartManager(CartManager cartManager) {
     items = List.from(cartManager.items);
     price = cartManager.totalPrice;
@@ -20,45 +17,48 @@ class Order {
   }
 
   Order.fromDocument(DocumentSnapshot doc) {
-    orderId = doc.id;
-    items = (doc.data()['items'] as List<dynamic>).map((e) {
+    orderId = doc.documentID;
+
+    items = (doc.data['items'] as List<dynamic>).map((e) {
       return CartProduct.fromMap(e as Map<String, dynamic>);
     }).toList();
-    price = doc.data()['price'] as num;
-    userId = doc.data()['user'] as String;
-    address = Address.fromMap(doc.data()['address'] as Map<String, dynamic>);
-    date = doc.data()['date'] as Timestamp;
 
-    status = Status.values[doc.data()['status'] as int];
+    price = doc.data['price'] as num;
+    userId = doc.data['user'] as String;
+    address = Address.fromMap(doc.data['address'] as Map<String, dynamic>);
+    date = doc.data['date'] as Timestamp;
+
+    status = Status.values[doc.data['status'] as int];
+
+    payId = doc.data['payId'] as String;
   }
+
+  final Firestore firestore = Firestore.instance;
+
+  DocumentReference get firestoreRef =>
+      firestore.collection('orders').document(orderId);
 
   void updateFromDocument(DocumentSnapshot doc) {
-    status = Status.values[doc.data()['status'] as int];
-  }
-
-  void cancel() {
-    status = Status.canceled;
-    firestoreRef.update({'status': status.index});
+    status = Status.values[doc.data['status'] as int];
   }
 
   Future<void> save() async {
-    firestoreRef.set(
-      {
-        'items': items.map((e) => e.toOrderItemMap()).toList(),
-        'price': price,
-        'user': userId,
-        'address': address.toMap(),
-        'status': status.index,
-        'date': Timestamp.now(),
-      },
-    );
+    firestore.collection('orders').document(orderId).setData({
+      'items': items.map((e) => e.toOrderItemMap()).toList(),
+      'price': price,
+      'user': userId,
+      'address': address.toMap(),
+      'status': status.index,
+      'date': Timestamp.now(),
+      'payId': payId,
+    });
   }
 
   Function() get back {
     return status.index >= Status.transporting.index
         ? () {
             status = Status.values[status.index - 1];
-            firestoreRef.update({'status': status.index});
+            firestoreRef.updateData({'status': status.index});
           }
         : null;
   }
@@ -67,12 +67,18 @@ class Order {
     return status.index <= Status.transporting.index
         ? () {
             status = Status.values[status.index + 1];
-            firestoreRef.update({'status': status.index});
+            firestoreRef.updateData({'status': status.index});
           }
         : null;
   }
 
+  void cancel() {
+    status = Status.canceled;
+    firestoreRef.updateData({'status': status.index});
+  }
+
   String orderId;
+  String payId;
 
   List<CartProduct> items;
   num price;
@@ -85,7 +91,7 @@ class Order {
 
   Timestamp date;
 
-  String get formattedId => '#${orderId.padLeft(5, '0')}';
+  String get formattedId => '#${orderId.padLeft(6, '0')}';
 
   String get statusText => getStatusText(status);
 
@@ -94,13 +100,18 @@ class Order {
       case Status.canceled:
         return 'Cancelado';
       case Status.preparing:
-        return 'Em Separação';
+        return 'Em preparação';
       case Status.transporting:
-        return 'Em Transporte';
+        return 'Em transporte';
       case Status.delivered:
         return 'Entregue';
       default:
         return '';
     }
+  }
+
+  @override
+  String toString() {
+    return 'Order{firestore: $firestore, orderId: $orderId, items: $items, price: $price, userId: $userId, address: $address, date: $date}';
   }
 }

@@ -43,7 +43,7 @@ class _BaseScreenState extends State<BaseScreen> {
                 appBar: AppBar(
                   title: const Text("Home4"),
                 ),
-                body: CheckoutMoneyScreen(),
+                body: Checkout2(),
               ),
               if (userManager.adminEnabled) ...[
                 AdminUsersScreen(),

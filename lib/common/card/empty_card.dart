@@ -8,6 +8,7 @@ class EmptyCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Color primaryColor = Theme.of(context).primaryColor;
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -17,7 +18,7 @@ class EmptyCard extends StatelessWidget {
           Icon(
             iconData,
             size: 80.0,
-            color: Colors.white,
+            color: primaryColor,
           ),
           const SizedBox(
             height: 16.0,
@@ -27,7 +28,7 @@ class EmptyCard extends StatelessWidget {
             style: TextStyle(
               fontSize: 20.0,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: primaryColor,
             ),
             textAlign: TextAlign.center,
           ),

@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:saudavel_life_v2/Screens/Base/base_screen.dart';
@@ -27,14 +25,8 @@ import 'models/admin_orders_manager.dart';
 import 'models/product.dart';
 
 // ignore: non_constant_identifier_names
-bool USE_FIRESTORE_EMULATOR = false;
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  if (USE_FIRESTORE_EMULATOR) {
-    FirebaseFirestore.instance.settings = const Settings(
-        host: 'localhost:8080', sslEnabled: false, persistenceEnabled: false);
-  }
+
+void main() {
   runApp(MyApp());
 }
 
@@ -65,7 +57,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProxyProvider<UserManager, OrdersManager>(
           create: (_) => OrdersManager(),
           update: (_, userManager, ordersManager) =>
-              ordersManager..updateUser(userManager.usuario),
+              ordersManager..updateUser(userManager.user),
           lazy: false,
         ),
         ChangeNotifierProxyProvider<UserManager, AdminOrdersManager>(
@@ -112,7 +104,7 @@ class MyApp extends StatelessWidget {
             case '/checkout':
               return MaterialPageRoute(builder: (_) => CheckoutScreen());
             case '/checkoutMoney':
-              return MaterialPageRoute(builder: (_) => CheckoutMoneyScreen());
+              return MaterialPageRoute(builder: (_) => Checkout2());
             case '/signUp':
               return MaterialPageRoute(builder: (_) => SignUpScreen());
             case '/orderScreen':

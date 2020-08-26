@@ -7,12 +7,12 @@ import 'package:saudavel_life_v2/models/user.dart';
 import 'order.dart';
 
 class AdminOrdersManager extends ChangeNotifier {
-  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final List<Order> _orders = [];
 
-  Usuario userFilter;
+  User userFilter;
   List<Status> statusFilter = [Status.preparing];
 
-  final List<Order> _orders = [];
+  final Firestore firestore = Firestore.instance;
 
   StreamSubscription _subscription;
 
@@ -20,10 +20,19 @@ class AdminOrdersManager extends ChangeNotifier {
     _orders.clear();
 
     _subscription?.cancel();
-
     if (adminEnabled) {
       _listenToOrders();
     }
+  }
+
+  List<Order> get filteredOrders {
+    List<Order> output = _orders.reversed.toList();
+
+    if (userFilter != null) {
+      output = output.where((o) => o.userId == userFilter.id).toList();
+    }
+
+    return output.where((o) => statusFilter.contains(o.status)).toList();
   }
 
   void _listenToOrders() {
@@ -39,7 +48,7 @@ class AdminOrdersManager extends ChangeNotifier {
             modOrder.updateFromDocument(change.document);
             break;
           case DocumentChangeType.removed:
-            debugPrint('erro inesperado no adminOrdersManager no removed');
+            debugPrint('Deu problema sério!!!');
             break;
         }
       }
@@ -47,19 +56,9 @@ class AdminOrdersManager extends ChangeNotifier {
     });
   }
 
-  void setUserFilter(Usuario user) {
+  void setUserFilter(User user) {
     userFilter = user;
     notifyListeners();
-  }
-
-  List<Order> get filteredOrders {
-    List<Order> output = _orders.reversed.toList();
-
-    if (userFilter != null) {
-      output = output.where((o) => o.userId == userFilter.id).toList();
-    }
-
-    return output.where((o) => statusFilter.contains(o.status)).toList();
   }
 
   void setStatusFilter({Status status, bool enabled}) {

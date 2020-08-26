@@ -17,7 +17,7 @@ class CustomDrawerHeader extends StatelessWidget {
             children: <Widget>[
               if (userManager.isLoggedIn) CircularAvatar() else SaudavelApp(),
               Text(
-                'Olá, ${userManager.usuario?.name ?? ''}',
+                'Olá, ${userManager.user?.name ?? ''}',
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
                 style: TextStyle(
@@ -62,7 +62,7 @@ class SaudavelApp extends StatelessWidget {
 
 class CircularAvatar extends StatelessWidget {
   final NetworkImage foto = const NetworkImage(
-      'https://scontent.fpoo2-1.fna.fbcdn.net/v/t1.0-9/58600086_2188791984541189_4677879156745175040_o.jpg?_nc_cat=102&_nc_sid=09cbfe&_nc_eui2=AeFxtISFL1NmANkWjF6L6-46fuXoLayFejd-5egtrIV6Nx2tFtkQ-elTFJvXtaytvbej20a7YwcIlEnQGA6kAcId&_nc_ohc=wlioH9MPEGAAX9xLTVa&_nc_ht=scontent.fpoo2-1.fna&oh=39418703a03fcafb1aeab34cbb61141f&oe=5F577AA1');
+      'https://firebasestorage.googleapis.com/v0/b/saudavel-life-v2.appspot.com/o/saudavellife.png?alt=media&token=ed4232a4-4ade-49ce-82c6-5f89bcc37187');
   @override
   Widget build(BuildContext context) {
     return Container(
