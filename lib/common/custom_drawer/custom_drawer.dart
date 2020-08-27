@@ -8,7 +8,7 @@ import 'drawer_tile.dart';
 class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Color primaryColor = Theme.of(context).primaryColor;
+    final Color primaryColor = Theme.of(context).primaryColor;
     return Drawer(
       child: Stack(children: <Widget>[
         Container(
@@ -38,8 +38,8 @@ class CustomDrawer extends StatelessWidget {
               page: 2,
             ),
             DrawerTile(
-              iconData: Icons.location_on,
-              title: 'Lojas',
+              iconData: Icons.person_pin,
+              title: 'Perfil',
               page: 3,
             ),
             Consumer<UserManager>(

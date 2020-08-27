@@ -18,7 +18,6 @@ class _Checkout2State extends State<Checkout2> {
 
   @override
   void initState() {
-    SystemChrome.setEnabledSystemUIOverlays([]);
     super.initState();
   }
 
@@ -40,201 +39,262 @@ class _Checkout2State extends State<Checkout2> {
       body: Consumer<UserManager>(builder: (_, userManager, __) {
         return ListView(
           children: <Widget>[
-            Container(
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height / 3.5,
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            const Color.fromARGB(255, 28, 57, 24),
-                            Colors.green
-                          ],
-                        ),
-                        borderRadius:
-                            BorderRadius.only(bottomLeft: Radius.circular(90))),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Spacer(),
-                        Container(
-                          padding: const EdgeInsets.only(bottom: 2),
+            Column(
+              children: <Widget>[
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height / 3.5,
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          const Color.fromARGB(255, 28, 57, 24),
+                          Colors.green
+                        ],
+                      ),
+                      borderRadius:
+                          BorderRadius.only(bottomLeft: Radius.circular(90))),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      // Spacer(),
+                      Container(
+                        padding: const EdgeInsets.only(bottom: 2),
+                        child: CircleAvatar(
+                          radius: 73,
+                          backgroundColor: Colors.white,
                           child: CircleAvatar(
-                            radius: 103,
-                            backgroundColor: Colors.white,
-                            child: CircleAvatar(
-                                foregroundColor: Colors.white,
-                                radius: 100,
-                                backgroundColor: Colors.green[800],
-                                backgroundImage: NetworkImage(
-                                  '${userManager.user?.foto + tamanho ?? fotoz}',
-                                )),
-                          ),
+                              foregroundColor: Colors.white,
+                              radius: 70,
+                              backgroundColor: Colors.green[800],
+                              backgroundImage: NetworkImage(
+                                '${userManager.user?.foto + tamanho ?? fotoz}',
+                              )),
                         ),
-                        Spacer(),
-                      ],
-                    ),
+                      ),
+                      RaisedButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0)),
+                        color: Colors.white,
+                        child: Text("Alterar Foto",
+                            style: TextStyle(color: Colors.green[900])),
+                        onPressed: () {},
+                      ),
+                      //Spacer(),
+                    ],
                   ),
-                  AddressCard2(),
-                  Container(
-                    height: MediaQuery.of(context).size.height / 2,
-                    width: MediaQuery.of(context).size.width,
-                    padding: EdgeInsets.only(top: 15),
-                    child: Column(
-                      children: <Widget>[
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Container(
-                            padding: EdgeInsets.only(
-                                left: MediaQuery.of(context).size.width / 5),
-                            child: Text(
-                              'Nome',
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width / 1.2,
-                          height: 45,
-                          padding: EdgeInsets.only(
-                              top: 4, left: 16, right: 16, bottom: 4),
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(50)),
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(color: Colors.black12, blurRadius: 5)
-                              ]),
-                          child: TextFormField(
-                            initialValue: '${userManager.user.name}',
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: 'Nome',
-                              icon: Icon(
-                                Icons.people,
-                                color: Colors.grey,
+                ),
+                Column(
+                  children: <Widget>[
+                    AddressCard2(),
+                    Container(
+                      //height: MediaQuery.of(context).size.height / 2,
+                      width: MediaQuery.of(context).size.width,
+                      padding: EdgeInsets.only(top: 15),
+                      child: Column(
+                        children: <Widget>[
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                              padding: EdgeInsets.only(
+                                  left: MediaQuery.of(context).size.width / 5),
+                              child: Text(
+                                'Nome',
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
                               ),
                             ),
                           ),
-                        ),
-                        SizedBox(height: 20),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Container(
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width / 1.2,
+                            height: 45,
                             padding: EdgeInsets.only(
-                                left: MediaQuery.of(context).size.width / 5),
-                            child: Text(
-                              'Email',
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width / 1.2,
-                          height: 45,
-                          padding: EdgeInsets.only(
-                              top: 4, left: 16, right: 16, bottom: 4),
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(50)),
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(color: Colors.black12, blurRadius: 5)
-                              ]),
-                          child: TextFormField(
-                            initialValue: '${userManager.user.email}',
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              icon: Icon(
-                                Icons.alternate_email,
-                                color: Colors.grey,
+                                top: 4, left: 16, right: 16, bottom: 4),
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(50)),
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.black12, blurRadius: 5)
+                                ]),
+                            child: TextFormField(
+                              initialValue: '${userManager.user.name}',
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: 'Nome',
+                                icon: Icon(
+                                  Icons.people,
+                                  color: Colors.grey,
+                                ),
                               ),
-                              hintText: 'Email',
                             ),
                           ),
-                        ),
-                        SizedBox(height: 20),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Container(
+                          SizedBox(height: 20),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                              padding: EdgeInsets.only(
+                                  left: MediaQuery.of(context).size.width / 5),
+                              child: Text(
+                                'Email',
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width / 1.2,
+                            height: 45,
                             padding: EdgeInsets.only(
-                                left: MediaQuery.of(context).size.width / 5),
-                            child: Text(
-                              'Senha',
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width / 1.2,
-                          height: 45,
-                          padding: EdgeInsets.only(
-                              top: 4, left: 16, right: 16, bottom: 4),
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(50)),
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(color: Colors.black12, blurRadius: 5)
-                              ]),
-                          child: TextFormField(
-                            initialValue: '${userManager.user.password}',
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              icon: Icon(
-                                Icons.vpn_key,
-                                color: Colors.grey,
+                                top: 4, left: 16, right: 16, bottom: 4),
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(50)),
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.black12, blurRadius: 5)
+                                ]),
+                            child: TextFormField(
+                              initialValue: '${userManager.user.email}',
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                icon: Icon(
+                                  Icons.alternate_email,
+                                  color: Colors.grey,
+                                ),
+                                hintText: 'Email',
                               ),
-                              hintText: 'Senha',
                             ),
                           ),
-                        ),
-                        SizedBox(height: 20),
-                        Container(
-                          height: 55,
-                          width: MediaQuery.of(context).size.width / 2,
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                const Color.fromARGB(255, 28, 57, 24),
-                                Colors.green
-                              ],
-                            ),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(15),
+                          SizedBox(height: 20),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                              padding: EdgeInsets.only(
+                                  left: MediaQuery.of(context).size.width / 5),
+                              child: Text(
+                                'Telefone',
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
+                              ),
                             ),
                           ),
-                          child: Center(
-                            child: Text(
-                              'Salvar'.toUpperCase(),
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width / 1.2,
+                            height: 45,
+                            padding: EdgeInsets.only(
+                                top: 4, left: 16, right: 16, bottom: 4),
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(50)),
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.black12, blurRadius: 5)
+                                ]),
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                icon: Icon(
+                                  Icons.phone_android,
+                                  color: Colors.grey,
+                                ),
+                                hintText: 'Telefone',
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                          SizedBox(height: 20),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                              padding: EdgeInsets.only(
+                                  left: MediaQuery.of(context).size.width / 5),
+                              child: Text(
+                                'Alterar Senha',
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width / 1.2,
+                            height: 45,
+                            padding: EdgeInsets.only(
+                                top: 4, left: 16, right: 16, bottom: 4),
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(50)),
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.black12, blurRadius: 5)
+                                ]),
+                            child: TextFormField(
+                              initialValue: '${userManager.user.password}',
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                icon: Icon(
+                                  Icons.vpn_key,
+                                  color: Colors.grey,
+                                ),
+                                hintText: 'Alterar Senha',
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 20),
+                          Container(
+                            height: 45,
+                            child: FlatButton(
+                              onPressed: () {},
+                              color: Colors.transparent,
+                              child: Container(
+                                height: 55,
+                                width: MediaQuery.of(context).size.width / 2,
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      const Color.fromARGB(255, 28, 57, 24),
+                                      Colors.green
+                                    ],
+                                  ),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(15),
+                                  ),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    'Salvar'.toUpperCase(),
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 20),
+                        ],
+                      ),
                     ),
-                  )
-                ],
-              ),
+                  ],
+                )
+              ],
             ),
           ],
         );

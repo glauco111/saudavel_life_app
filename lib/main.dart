@@ -77,6 +77,7 @@ class MyApp extends StatelessWidget {
         title: 'Saudavel Life App',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          fontFamily: 'Alata',
           brightness: Brightness.light,
           primaryColor: const Color.fromARGB(255, 41, 84, 38),
           scaffoldBackgroundColor: Colors.grey[100],
