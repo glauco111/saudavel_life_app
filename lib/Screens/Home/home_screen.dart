@@ -21,8 +21,8 @@ class HomeScreen extends StatelessWidget {
                 // ignore: prefer_const_literals_to_create_immutables
                 colors: [
                   const Color.fromARGB(255, 28, 57, 24),
-                  const Color.fromARGB(255, 126, 159, 121),
-                  const Color.fromARGB(255, 200, 214, 197),
+                  Colors.green
+                  //const Color.fromARGB(255, 200, 214, 197),
                 ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,

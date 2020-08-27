@@ -141,7 +141,6 @@ class AddressInputField2 extends StatelessWidget {
                 Form.of(context).save();
                 try {
                   await context.read<CartManager>().setAddress(address);
-                  Navigator.of(context).pushNamed('/base');
                 } catch (e) {
                   Scaffold.of(context).showSnackBar(
                     SnackBar(

@@ -8,12 +8,13 @@ import 'drawer_tile.dart';
 class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Color primaryColor = Theme.of(context).primaryColor;
     return Drawer(
       child: Stack(children: <Widget>[
         Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
-                colors: [Colors.green, Colors.white],
+                colors: [primaryColor, Colors.green],
                 begin: Alignment.topCenter),
           ),
         ),

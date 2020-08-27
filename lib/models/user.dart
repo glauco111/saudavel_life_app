@@ -7,17 +7,13 @@ import 'package:saudavel_life_v2/models/address.dart';
 import 'package:saudavel_life_v2/services/cep_aberto_service.dart';
 
 class User extends ChangeNotifier {
-  User({
-    this.email,
-    this.password,
-    this.name,
-    this.id,
-  });
+  User({this.email, this.password, this.name, this.id, this.foto});
 
   User.fromDocument(DocumentSnapshot document) {
     id = document.documentID;
     name = document.data['name'] as String;
     email = document.data['email'] as String;
+    foto = document.data['foto'] as String;
     cpf = document.data['cpf'] as String;
     if (document.data.containsKey('address')) {
       address =
@@ -28,6 +24,7 @@ class User extends ChangeNotifier {
   String id;
   String name;
   String email;
+  String foto;
   String cpf;
   String password;
 
@@ -76,6 +73,7 @@ class User extends ChangeNotifier {
     return {
       'name': name,
       'email': email,
+      'foto': foto,
       if (address != null) 'address': address.toMap(),
       if (cpf != null) 'cpf': cpf
     };

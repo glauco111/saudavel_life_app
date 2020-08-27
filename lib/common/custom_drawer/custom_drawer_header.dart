@@ -3,12 +3,15 @@ import 'package:provider/provider.dart';
 import 'package:saudavel_life_v2/models/page_manager.dart';
 import 'package:saudavel_life_v2/models/user_manager.dart';
 
+import '../../models/user.dart';
+import '../../models/user_manager.dart';
+
 class CustomDrawerHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.fromLTRB(32, 24, 16, 8),
-      height: 180,
+      height: 230,
       child: Consumer<UserManager>(
         builder: (_, userManager, __) {
           return Column(
@@ -60,23 +63,37 @@ class SaudavelApp extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class CircularAvatar extends StatelessWidget {
-  final NetworkImage foto = const NetworkImage(
-      'https://firebasestorage.googleapis.com/v0/b/saudavel-life-v2.appspot.com/o/saudavellife.png?alt=media&token=ed4232a4-4ade-49ce-82c6-5f89bcc37187');
+  CircularAvatar(
+      {this.user, this.userManager, this.radiusImg, this.radiusBord});
+  User user;
+  UserManager userManager;
+  double radiusImg = 50;
+  double radiusBord = 53;
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(bottom: 2),
-      child: CircleAvatar(
-        radius: 53,
-        backgroundColor: Colors.white,
-        child: CircleAvatar(
-          foregroundColor: Colors.white,
-          radius: 50,
-          backgroundColor: Colors.green[800],
-          backgroundImage: foto,
-        ),
-      ),
+    const String tamanho = '?height=200';
+    const String fotoz =
+        'https://firebasestorage.googleapis.com/v0/b/saudavel-life-v2.appspot.com/o/saudavellife.png?alt=media&token=ed4232a4-4ade-49ce-82c6-5f89bcc37187';
+    return Consumer<UserManager>(
+      builder: (_, userManager, __) {
+        return Container(
+          padding: const EdgeInsets.only(bottom: 2),
+          child: CircleAvatar(
+            radius: 53,
+            backgroundColor: Colors.white,
+            child: CircleAvatar(
+                foregroundColor: Colors.white,
+                radius: 50,
+                backgroundColor: Colors.green[800],
+                backgroundImage: NetworkImage(
+                  '${userManager.user?.foto + tamanho ?? fotoz}',
+                )),
+          ),
+        );
+      },
     );
   }
 }

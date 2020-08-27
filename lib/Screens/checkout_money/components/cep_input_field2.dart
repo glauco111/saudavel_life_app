@@ -95,14 +95,6 @@ class _CepInputFieldState extends State<CepInputField2> {
                 context.read<CartManager>().removeAddress();
               },
             ),
-            CustomIconButtom(
-              iconData: Icons.check_circle_outline,
-              color: primaryColor,
-              size: 20,
-              onTap: () {
-                Navigator.of(context).pushNamed('/base');
-              },
-            ),
           ],
         ),
       );

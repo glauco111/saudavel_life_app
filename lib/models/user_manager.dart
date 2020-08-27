@@ -58,12 +58,12 @@ class UserManager extends ChangeNotifier {
             accessToken: result.accessToken.token);
 
         final authResult = await auth.signInWithCredential(credential);
-
         if (authResult.user != null) {
           final firebaseUser = authResult.user;
 
           user = User(
               id: firebaseUser.uid,
+              foto: firebaseUser.photoUrl,
               name: firebaseUser.displayName,
               email: firebaseUser.email);
 
