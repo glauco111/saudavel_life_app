@@ -16,11 +16,11 @@ class HomeScreen extends StatelessWidget {
       body: Stack(
         children: <Widget>[
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               gradient: LinearGradient(
                 // ignore: prefer_const_literals_to_create_immutables
                 colors: [
-                  const Color.fromARGB(255, 28, 57, 24),
+                  Color.fromARGB(255, 28, 57, 24),
                   Colors.green
                   //const Color.fromARGB(255, 200, 214, 197),
                 ],
@@ -37,12 +37,15 @@ class HomeScreen extends StatelessWidget {
                 floating: true,
                 elevation: 0,
                 flexibleSpace: const FlexibleSpaceBar(
-                  title: Text('Loja Saudavel Life'),
+                  title: Text(
+                    'Loja Saudavel Life',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
                   centerTitle: true,
                 ),
                 actions: <Widget>[
                   IconButton(
-                    icon: Icon(Icons.shopping_cart),
+                    icon: const Icon(Icons.shopping_cart),
                     color: Colors.white,
                     onPressed: () => Navigator.of(context).pushNamed('/cart'),
                   ),
@@ -69,7 +72,7 @@ class HomeScreen extends StatelessWidget {
                           );
                         } else {
                           return IconButton(
-                            icon: Icon(Icons.edit),
+                            icon: const Icon(Icons.edit),
                             onPressed: homeManager.enterEditing,
                           );
                         }
@@ -85,7 +88,7 @@ class HomeScreen extends StatelessWidget {
                   if (homeManager.loading) {
                     return SliverToBoxAdapter(
                       child: LinearProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation(Colors.white),
+                        valueColor: const AlwaysStoppedAnimation(Colors.white),
                         backgroundColor: Colors.white.withAlpha(30),
                       ),
                     );

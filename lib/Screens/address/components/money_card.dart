@@ -36,7 +36,7 @@ class _MoneyCardState extends State<MoneyCard> {
                       borderRadius: BorderRadius.circular(5)),
                   child: Image.asset('assets/images/dinheiro.png'),
                 ),
-                Text(
+                const Text(
                   'Dinheiro',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
                 )
@@ -61,7 +61,7 @@ class _MoneyCardState extends State<MoneyCard> {
                       borderRadius: BorderRadius.circular(5)),
                   child: Image.asset('assets/images/pagar.png'),
                 ),
-                Text(
+                const Text(
                   'Cartão',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
                 )

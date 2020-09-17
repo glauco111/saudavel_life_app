@@ -68,7 +68,7 @@ class SizesForm extends StatelessWidget {
               Container(
                 alignment: Alignment.centerLeft,
                 child: Text(state.errorText,
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Colors.red,
                         fontSize: 16,
                         fontWeight: FontWeight.bold)),

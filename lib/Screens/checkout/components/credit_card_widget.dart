@@ -19,7 +19,6 @@ class CreditCardWidget extends StatelessWidget {
           FlipCard(
             key: cardKey,
             flipOnTouch: false,
-            direction: FlipDirection.HORIZONTAL,
             speed: 700,
             front: CardFront(
                 numberFocus: numberFocus,

@@ -44,6 +44,7 @@ class AddressInputField2 extends StatelessWidget {
                     hintText: '123',
                   ),
                   inputFormatters: [
+                    // ignore: deprecated_member_use
                     WhitelistingTextInputFormatter.digitsOnly,
                   ],
                   keyboardType: TextInputType.number,

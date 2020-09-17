@@ -63,7 +63,7 @@ class UserManager extends ChangeNotifier {
 
           user = User(
               id: firebaseUser.uid,
-              foto: firebaseUser.photoUrl,
+              foto: "${firebaseUser.photoUrl}?height=200",
               name: firebaseUser.displayName,
               email: firebaseUser.email);
 

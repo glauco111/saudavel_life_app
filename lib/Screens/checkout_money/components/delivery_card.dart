@@ -40,7 +40,7 @@ class _DeliveryCardState extends State<DeliveryCard> {
                       borderRadius: BorderRadius.circular(5)),
                   child: Image.asset('assets/images/box.png'),
                 ),
-                Text(
+                const Text(
                   'Retirada',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
                 )
@@ -68,7 +68,7 @@ class _DeliveryCardState extends State<DeliveryCard> {
                       borderRadius: BorderRadius.circular(5)),
                   child: Image.asset('assets/images/delivery.png'),
                 ),
-                Text(
+                const Text(
                   'Delivery',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
                 )

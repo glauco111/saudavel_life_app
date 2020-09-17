@@ -21,7 +21,7 @@ class PriceCardMoney extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Text(
+            const Text(
               'Resumo do pedido',
               textAlign: TextAlign.start,
               style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
@@ -39,7 +39,7 @@ class PriceCardMoney extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Text('total',
+                const Text('total',
                     style:
                         TextStyle(fontWeight: FontWeight.w600, fontSize: 16)),
                 Text('R\$ ${totalPrice.toStringAsFixed(2)}',

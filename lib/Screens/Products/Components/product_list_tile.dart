@@ -17,7 +17,7 @@ class ProductListTile extends StatelessWidget {
           borderRadius: BorderRadius.circular(4),
         ),
         child: Container(
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
           height: 100,
           child: Row(
             children: <Widget>[
@@ -26,7 +26,7 @@ class ProductListTile extends StatelessWidget {
                 child: Image.network(product.images.first),
               ),
               const SizedBox(
-                width: 16,
+                width: 12,
               ),
               Expanded(
                 child: Column(
@@ -35,8 +35,8 @@ class ProductListTile extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       product.name,
-                      style:
-                          TextStyle(fontWeight: FontWeight.w800, fontSize: 16),
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w800, fontSize: 16),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 4),

@@ -36,14 +36,14 @@ class CartTile extends StatelessWidget {
                       children: <Widget>[
                         Text(
                           cartProduct.product.name,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 17, fontWeight: FontWeight.bold),
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8),
                           child: Text(
                             'Tamanho: ${cartProduct.size}',
-                            style: TextStyle(fontWeight: FontWeight.w300),
+                            style: const TextStyle(fontWeight: FontWeight.w300),
                           ),
                         ),
                         Consumer<CartProduct>(
@@ -57,7 +57,7 @@ class CartTile extends StatelessWidget {
                                     color: Theme.of(context).primaryColor),
                               );
                             } else {
-                              return Text('Sem estoque disponível',
+                              return const Text('Sem estoque disponível',
                                   style: TextStyle(
                                     color: Colors.red,
                                     fontSize: 14,

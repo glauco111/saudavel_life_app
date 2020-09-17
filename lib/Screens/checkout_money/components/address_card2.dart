@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:saudavel_life_v2/Screens/address/components/cep_input_field.dart';
 import 'package:saudavel_life_v2/Screens/checkout_money/components/address_input_field2.dart';
 import 'package:saudavel_life_v2/Screens/checkout_money/components/cep_input_field2.dart';
 import 'package:saudavel_life_v2/models/address.dart';

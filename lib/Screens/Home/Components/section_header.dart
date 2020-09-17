@@ -19,11 +19,11 @@ class SectionHeader extends StatelessWidget {
               Expanded(
                 child: TextFormField(
                   initialValue: section.name,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                       hintText: "Título",
                       isDense: true,
                       border: InputBorder.none),
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontSize: 18,
                       color: Colors.white,
                       fontWeight: FontWeight.w800),
@@ -44,7 +44,7 @@ class SectionHeader extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: Text(
                 section.error,
-                style: TextStyle(color: Colors.red),
+                style: const TextStyle(color: Colors.red),
               ),
             )
         ],
@@ -54,7 +54,7 @@ class SectionHeader extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: Text(
           section.name ?? "",
-          style: TextStyle(
+          style: const TextStyle(
               fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
         ),
       );

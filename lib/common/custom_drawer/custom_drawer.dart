@@ -22,22 +22,22 @@ class CustomDrawer extends StatelessWidget {
         ListView(
           children: <Widget>[
             CustomDrawerHeader(),
-            DrawerTile(
+            const DrawerTile(
               iconData: Icons.home,
               title: 'Início',
               page: 0,
             ),
-            DrawerTile(
+            const DrawerTile(
               iconData: Icons.list,
               title: 'Produtos',
               page: 1,
             ),
-            DrawerTile(
+            const DrawerTile(
               iconData: Icons.playlist_add_check,
               title: 'Meus Pedidos',
               page: 2,
             ),
-            DrawerTile(
+            const DrawerTile(
               iconData: Icons.person_pin,
               title: 'Perfil',
               page: 3,
@@ -46,14 +46,16 @@ class CustomDrawer extends StatelessWidget {
               builder: (_, userManager, __) {
                 if (userManager.adminEnabled) {
                   return Column(
+                    // ignore: prefer_const_literals_to_create_immutables
+                    // ignore: prefer_const_literals_to_create_immutables
                     children: <Widget>[
                       const Divider(),
-                      DrawerTile(
+                      const DrawerTile(
                         iconData: Icons.settings,
                         title: 'Usuários',
                         page: 4,
                       ),
-                      DrawerTile(
+                      const DrawerTile(
                         iconData: Icons.settings,
                         title: 'Pedidos',
                         page: 5,

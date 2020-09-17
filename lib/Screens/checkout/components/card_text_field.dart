@@ -43,7 +43,7 @@ class CardTextField extends StatelessWidget {
                   if (title != null)
                     Text(
                       title,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
                           color: Colors.white),

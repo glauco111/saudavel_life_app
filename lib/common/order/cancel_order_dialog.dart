@@ -32,7 +32,7 @@ class _CancelOrderDialogState extends State<CancelOrderDialog> {
                 padding: const EdgeInsets.only(top: 8),
                 child: Text(
                   error,
-                  style: TextStyle(color: Colors.red),
+                  style: const TextStyle(color: Colors.red),
                 ),
               )
           ],
@@ -53,6 +53,7 @@ class _CancelOrderDialogState extends State<CancelOrderDialog> {
                       loading = true;
                     });
                     try {
+                      // ignore: await_only_futures
                       await widget.order.cancel();
                       Navigator.of(context).pop();
                     } catch (e) {

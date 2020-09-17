@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:saudavel_life_v2/models/address.dart';
 import 'package:saudavel_life_v2/models/cart_manager.dart';
 import 'package:saudavel_life_v2/models/cart_product.dart';
-import 'package:saudavel_life_v2/services/cielo_payment.dart';
 
 enum Status { canceled, preparing, transporting, delivered }
 

@@ -53,6 +53,7 @@ class CardFront extends StatelessWidget {
                     textInputType: TextInputType.number,
                     bold: true,
                     inputFormatters: [
+                      // ignore: deprecated_member_use
                       WhitelistingTextInputFormatter.digitsOnly,
                       CartaoBancarioInputFormatter()
                     ],

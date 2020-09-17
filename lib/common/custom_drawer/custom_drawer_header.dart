@@ -15,6 +15,7 @@ class CustomDrawerHeader extends StatelessWidget {
       child: Consumer<UserManager>(
         builder: (_, userManager, __) {
           return Column(
+            // ignore: avoid_redundant_argument_values
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
@@ -23,7 +24,7 @@ class CustomDrawerHeader extends StatelessWidget {
                 'Olá, ${userManager.user?.name ?? ''}',
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -40,8 +41,8 @@ class CustomDrawerHeader extends StatelessWidget {
                 },
                 child: Text(
                   userManager.isLoggedIn ? 'Sair' : 'Entre ou Cadastre-se >',
-                  style: TextStyle(
-                      color: Theme.of(context).primaryColor,
+                  style: const TextStyle(
+                      color: Colors.white,
                       fontSize: 16,
                       fontWeight: FontWeight.bold),
                 ),
@@ -57,9 +58,10 @@ class CustomDrawerHeader extends StatelessWidget {
 class SaudavelApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Text(
+    return const Text(
       '        Loja \nSaudavel Life',
-      style: TextStyle(fontSize: 34, fontWeight: FontWeight.bold),
+      style: TextStyle(
+          fontSize: 34, fontWeight: FontWeight.bold, color: Colors.white),
     );
   }
 }
@@ -75,7 +77,6 @@ class CircularAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const String tamanho = '?height=200';
     const String fotoz =
         'https://firebasestorage.googleapis.com/v0/b/saudavel-life-v2.appspot.com/o/saudavellife.png?alt=media&token=ed4232a4-4ade-49ce-82c6-5f89bcc37187';
     return Consumer<UserManager>(
@@ -90,7 +91,8 @@ class CircularAvatar extends StatelessWidget {
                 radius: 50,
                 backgroundColor: Colors.green[800],
                 backgroundImage: NetworkImage(
-                  '${userManager.user?.foto + tamanho ?? fotoz}',
+                  // ignore: unnecessary_string_interpolations
+                  '${userManager.user?.foto ?? fotoz}',
                 )),
           ),
         );

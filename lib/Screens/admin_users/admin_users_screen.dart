@@ -9,6 +9,7 @@ import 'package:saudavel_life_v2/models/page_manager.dart';
 class AdminUsersScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final Color primaryColor = Theme.of(context).primaryColor;
     return Scaffold(
         drawer: CustomDrawer(),
         appBar: AppBar(
@@ -24,11 +25,11 @@ class AdminUsersScreen extends StatelessWidget {
                     title: Text(
                       adminUsersManager.users[index].name,
                       style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.w800),
+                          color: primaryColor, fontWeight: FontWeight.w800),
                     ),
                     subtitle: Text(
                       adminUsersManager.users[index].email,
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: primaryColor),
                     ),
                     onTap: () {
                       context
@@ -39,7 +40,7 @@ class AdminUsersScreen extends StatelessWidget {
                   );
                 },
                 highlightTextStyle:
-                    TextStyle(color: Colors.white, fontSize: 20),
+                    TextStyle(color: primaryColor, fontSize: 20),
                 showPreview: true,
                 strList: adminUsersManager.names,
                 indexedHeight: (index) => 80);

@@ -73,7 +73,7 @@ class User extends ChangeNotifier {
     return {
       'name': name,
       'email': email,
-      'foto': foto,
+      'foto': '$foto + ?height=200',
       if (address != null) 'address': address.toMap(),
       if (cpf != null) 'cpf': cpf
     };

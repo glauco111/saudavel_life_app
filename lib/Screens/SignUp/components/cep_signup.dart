@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:saudavel_life_v2/common/widgets/custom_icon_buttom.dart';
 import 'package:saudavel_life_v2/models/address.dart';
-import 'package:saudavel_life_v2/models/cart_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:saudavel_life_v2/models/user.dart';
 
@@ -32,6 +31,7 @@ class _CepSignup extends State<CepSignup> {
             decoration: const InputDecoration(
                 isDense: true, labelText: 'CEP', hintText: '12.345-678'),
             inputFormatters: [
+              // ignore: deprecated_member_use
               WhitelistingTextInputFormatter.digitsOnly,
               CepInputFormatter(),
             ],

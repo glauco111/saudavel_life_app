@@ -31,11 +31,12 @@ class OrderProductTile extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     cartProduct.product.name,
-                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 17),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w500, fontSize: 17),
                   ),
                   Text(
                     'Tamanho: ${cartProduct.size}',
-                    style: TextStyle(fontWeight: FontWeight.w300),
+                    style: const TextStyle(fontWeight: FontWeight.w300),
                   ),
                   Text(
                     'R\$ ${(cartProduct.fixedPrice ?? cartProduct.unitPrice).toStringAsFixed(2)}',
@@ -50,7 +51,12 @@ class OrderProductTile extends StatelessWidget {
             Text(
               '${cartProduct.quantity}',
               style: const TextStyle(fontSize: 20),
-            )
+            ),
+            Text('Tipo de Pagamento: ',
+                style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold)),
           ],
         ),
       ),

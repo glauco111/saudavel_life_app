@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:saudavel_life_v2/Screens/Cart/components/cart_tile.dart';
 import 'package:saudavel_life_v2/common/card/price_card.dart';
 import 'package:saudavel_life_v2/models/cart_manager.dart';
 import 'package:saudavel_life_v2/models/checkout_manager.dart';
-
-import 'components/credit_card_widget.dart';
 
 class CheckoutScreen extends StatelessWidget {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();

@@ -18,7 +18,7 @@ import 'Screens/address/address_screen.dart';
 import 'Screens/Login/login_screen.dart';
 import 'Screens/Product/product_screen.dart';
 import 'Screens/checkout/checkout_screen.dart';
-import 'Screens/checkout_money/checkout_money_screen.dart';
+import 'Screens/checkout_money/perfil_screen.dart';
 import 'Screens/confirmation/confirmation_screen.dart';
 import 'Screens/select_product/select_product_screen.dart';
 import 'models/admin_orders_manager.dart';
@@ -105,7 +105,7 @@ class MyApp extends StatelessWidget {
             case '/checkout':
               return MaterialPageRoute(builder: (_) => CheckoutScreen());
             case '/checkoutMoney':
-              return MaterialPageRoute(builder: (_) => Checkout2());
+              return MaterialPageRoute(builder: (_) => PerfilScreen());
             case '/signUp':
               return MaterialPageRoute(builder: (_) => SignUpScreen());
             case '/orderScreen':

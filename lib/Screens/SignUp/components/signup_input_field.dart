@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:saudavel_life_v2/models/address.dart';
-import 'package:saudavel_life_v2/models/cart_manager.dart';
 import 'package:saudavel_life_v2/models/user.dart';
 
 class SignUpInputField extends StatelessWidget {
@@ -40,6 +39,7 @@ class SignUpInputField extends StatelessWidget {
                     hintText: '123',
                   ),
                   inputFormatters: [
+                    // ignore: deprecated_member_use
                     WhitelistingTextInputFormatter.digitsOnly,
                   ],
                   keyboardType: TextInputType.number,

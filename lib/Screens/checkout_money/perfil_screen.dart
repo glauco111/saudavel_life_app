@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:saudavel_life_v2/Screens/checkout_money/components/address_card2.dart';
+import 'package:saudavel_life_v2/common/card/login_card.dart';
 import 'package:saudavel_life_v2/common/custom_drawer/custom_drawer.dart';
 import 'package:saudavel_life_v2/models/user_manager.dart';
 
 // ignore: must_be_immutable
-class Checkout2 extends StatefulWidget {
+class PerfilScreen extends StatefulWidget {
   @override
-  _Checkout2State createState() => _Checkout2State();
+  _PerfilScreenState createState() => _PerfilScreenState();
 }
 
-class _Checkout2State extends State<Checkout2> {
+class _PerfilScreenState extends State<PerfilScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -23,12 +23,11 @@ class _Checkout2State extends State<Checkout2> {
 
   @override
   Widget build(BuildContext context) {
-    const String tamanho = '?height=200';
     const String fotoz =
         'https://firebasestorage.googleapis.com/v0/b/saudavel-life-v2.appspot.com/o/saudavellife.png?alt=media&token=ed4232a4-4ade-49ce-82c6-5f89bcc37187';
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Meu Perfil',
           style: TextStyle(color: Colors.white, fontSize: 18),
         ),
@@ -37,6 +36,9 @@ class _Checkout2State extends State<Checkout2> {
       ),
       drawer: CustomDrawer(),
       body: Consumer<UserManager>(builder: (_, userManager, __) {
+        if (userManager.user == null) {
+          return LoginCard();
+        }
         return ListView(
           children: <Widget>[
             Column(
@@ -44,14 +46,11 @@ class _Checkout2State extends State<Checkout2> {
                 Container(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height / 3.5,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       gradient: LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
-                        colors: [
-                          const Color.fromARGB(255, 28, 57, 24),
-                          Colors.green
-                        ],
+                        colors: [Color.fromARGB(255, 28, 57, 24), Colors.green],
                       ),
                       borderRadius:
                           BorderRadius.only(bottomLeft: Radius.circular(90))),
@@ -69,7 +68,8 @@ class _Checkout2State extends State<Checkout2> {
                               radius: 70,
                               backgroundColor: Colors.green[800],
                               backgroundImage: NetworkImage(
-                                '${userManager.user?.foto + tamanho ?? fotoz}',
+                                // ignore: unnecessary_string_interpolations
+                                '${userManager.user?.foto ?? fotoz}',
                               )),
                         ),
                       ),
@@ -77,9 +77,9 @@ class _Checkout2State extends State<Checkout2> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(18.0)),
                         color: Colors.white,
+                        onPressed: () {},
                         child: Text("Alterar Foto",
                             style: TextStyle(color: Colors.green[900])),
-                        onPressed: () {},
                       ),
                       //Spacer(),
                     ],
@@ -91,7 +91,7 @@ class _Checkout2State extends State<Checkout2> {
                     Container(
                       //height: MediaQuery.of(context).size.height / 2,
                       width: MediaQuery.of(context).size.width,
-                      padding: EdgeInsets.only(top: 15),
+                      padding: const EdgeInsets.only(top: 15),
                       child: Column(
                         children: <Widget>[
                           Align(
@@ -99,22 +99,22 @@ class _Checkout2State extends State<Checkout2> {
                             child: Container(
                               padding: EdgeInsets.only(
                                   left: MediaQuery.of(context).size.width / 5),
-                              child: Text(
+                              child: const Text(
                                 'Nome',
                                 style: TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.bold),
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 8,
                           ),
                           Container(
                             width: MediaQuery.of(context).size.width / 1.2,
                             height: 45,
-                            padding: EdgeInsets.only(
+                            padding: const EdgeInsets.only(
                                 top: 4, left: 16, right: 16, bottom: 4),
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(50)),
                                 color: Colors.white,
@@ -123,8 +123,9 @@ class _Checkout2State extends State<Checkout2> {
                                       color: Colors.black12, blurRadius: 5)
                                 ]),
                             child: TextFormField(
+                              // ignore: unnecessary_string_interpolations
                               initialValue: '${userManager.user.name}',
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 border: InputBorder.none,
                                 hintText: 'Nome',
                                 icon: Icon(
@@ -134,28 +135,28 @@ class _Checkout2State extends State<Checkout2> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Container(
                               padding: EdgeInsets.only(
                                   left: MediaQuery.of(context).size.width / 5),
-                              child: Text(
+                              child: const Text(
                                 'Email',
                                 style: TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.bold),
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 8,
                           ),
                           Container(
                             width: MediaQuery.of(context).size.width / 1.2,
                             height: 45,
-                            padding: EdgeInsets.only(
+                            padding: const EdgeInsets.only(
                                 top: 4, left: 16, right: 16, bottom: 4),
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(50)),
                                 color: Colors.white,
@@ -164,8 +165,9 @@ class _Checkout2State extends State<Checkout2> {
                                       color: Colors.black12, blurRadius: 5)
                                 ]),
                             child: TextFormField(
+                              // ignore: unnecessary_string_interpolations
                               initialValue: '${userManager.user.email}',
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 border: InputBorder.none,
                                 icon: Icon(
                                   Icons.alternate_email,
@@ -175,28 +177,28 @@ class _Checkout2State extends State<Checkout2> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Container(
                               padding: EdgeInsets.only(
                                   left: MediaQuery.of(context).size.width / 5),
-                              child: Text(
+                              child: const Text(
                                 'Telefone',
                                 style: TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.bold),
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 8,
                           ),
                           Container(
                             width: MediaQuery.of(context).size.width / 1.2,
                             height: 45,
-                            padding: EdgeInsets.only(
+                            padding: const EdgeInsets.only(
                                 top: 4, left: 16, right: 16, bottom: 4),
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(50)),
                                 color: Colors.white,
@@ -205,7 +207,7 @@ class _Checkout2State extends State<Checkout2> {
                                       color: Colors.black12, blurRadius: 5)
                                 ]),
                             child: TextFormField(
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 border: InputBorder.none,
                                 icon: Icon(
                                   Icons.phone_android,
@@ -215,28 +217,28 @@ class _Checkout2State extends State<Checkout2> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Container(
                               padding: EdgeInsets.only(
                                   left: MediaQuery.of(context).size.width / 5),
-                              child: Text(
+                              child: const Text(
                                 'Alterar Senha',
                                 style: TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.bold),
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 8,
                           ),
                           Container(
                             width: MediaQuery.of(context).size.width / 1.2,
                             height: 45,
-                            padding: EdgeInsets.only(
+                            padding: const EdgeInsets.only(
                                 top: 4, left: 16, right: 16, bottom: 4),
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(50)),
                                 color: Colors.white,
@@ -245,8 +247,7 @@ class _Checkout2State extends State<Checkout2> {
                                       color: Colors.black12, blurRadius: 5)
                                 ]),
                             child: TextFormField(
-                              initialValue: '${userManager.user.password}',
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 border: InputBorder.none,
                                 icon: Icon(
                                   Icons.vpn_key,
@@ -256,7 +257,7 @@ class _Checkout2State extends State<Checkout2> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           Container(
                             height: 45,
                             child: FlatButton(
@@ -265,10 +266,10 @@ class _Checkout2State extends State<Checkout2> {
                               child: Container(
                                 height: 55,
                                 width: MediaQuery.of(context).size.width / 2,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   gradient: LinearGradient(
                                     colors: [
-                                      const Color.fromARGB(255, 28, 57, 24),
+                                      Color.fromARGB(255, 28, 57, 24),
                                       Colors.green
                                     ],
                                   ),
@@ -279,7 +280,7 @@ class _Checkout2State extends State<Checkout2> {
                                 child: Center(
                                   child: Text(
                                     'Salvar'.toUpperCase(),
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 20,
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold),
@@ -288,7 +289,7 @@ class _Checkout2State extends State<Checkout2> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                         ],
                       ),
                     ),

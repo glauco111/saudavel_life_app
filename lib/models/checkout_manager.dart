@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:saudavel_life_v2/models/cart_manager.dart';
-import 'package:saudavel_life_v2/models/creditcard.dart';
 import 'package:saudavel_life_v2/models/order.dart';
 import 'package:saudavel_life_v2/models/product.dart';
 

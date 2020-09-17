@@ -37,7 +37,7 @@ class SizeWidget extends StatelessWidget {
               color: color,
               child: Text(
                 size.name,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                 ),
               ),

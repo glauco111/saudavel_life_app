@@ -11,7 +11,6 @@ class AddSectionWidget extends StatelessWidget {
     return Row(
       children: <Widget>[
         Expanded(
-          flex: 1,
           child: FlatButton(
             onPressed: () {
               homeManager.addSection(Section(type: 'List'));

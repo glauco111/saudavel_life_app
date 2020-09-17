@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:saudavel_life_v2/Helpers/validators.dart';
-import 'package:saudavel_life_v2/Screens/address/components/address_card.dart';
-import 'package:saudavel_life_v2/Screens/address/components/address_input_field.dart';
-import 'package:saudavel_life_v2/Screens/address/components/cep_input_field.dart';
 import 'package:saudavel_life_v2/models/address.dart';
 import 'package:saudavel_life_v2/models/user.dart';
 import 'package:provider/provider.dart';
@@ -140,7 +137,7 @@ class SignUpScreen extends StatelessWidget {
                               }
                             },
                       child: userManager.loading
-                          ? CircularProgressIndicator(
+                          ? const CircularProgressIndicator(
                               valueColor: AlwaysStoppedAnimation(Colors.white),
                             )
                           : const Text(
